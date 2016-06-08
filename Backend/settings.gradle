@@ -1,0 +1,24 @@
+include "safety-circles-geo-utils",
+		   "safety-circles-api",
+		   "google-places-service",
+		   "auth0-management-service",
+		   "safety-circles-conf-service",
+		   "safety-circles-api-impl-gds",
+		   "safety-circles-sms-gateway",
+		   "safety-circles-svc-dtos",
+		   "safety-feed-listeners",
+		   "safety-circles-api-endpoint",
+		   "safety-circles-backend-svc",
+		   "psa-appengine-modules-ear"
+		   
+		   
+
+rootProject.buildFileName = 'safetycircles-build.gradle'
+
+rootProject.children.each { 
+	p -> p.children.each { 
+		i -> i.buildFileName = "${i.name}"+"-build.gradle"
+	}
+	p.buildFileName = "${p.name}"+"-build.gradle"
+} 
+
