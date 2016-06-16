@@ -19,11 +19,14 @@ router.post('/login', accountEP.login);
 
 // CRUD routes
 router.post('/', auth, accountEP.create); // Account Registration
+// router.post('/', accountEP.create);
 router.put('/:id', auth, accountEP.modify);
+// router.put('/:id', accountEP.modify);
 router.get('/:id', auth, accountEP.findById);
 
 // Finder routes
-router.get('/findByUsername', auth, accountEP.findByUsername);
+// router.get('/findByUsername/:username', accountEP.findByUsername);
+router.get('/findByUsername/:username', auth, accountEP.findByUsername);
 
 //
 module.exports = router;
