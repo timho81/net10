@@ -13,7 +13,7 @@ var users = require('./routes/users');
 
 // Endpoint API routes go here
 var accountApiRoutes = require('./api_app/routes/accounts');
-// var profileApiRoutes = require('./api_app/routes/profiles');
+var profileApiRoutes = require('./api_app/routes/profiles');
 
 // API routes for Web components access go here
 // var accountServerRoutes = require('./server_app/routes/accounts');
@@ -55,8 +55,8 @@ app.use(passport.initialize());
 app.use('/', routes);
 app.use('/users', users);
 
-app.use('/api' + apiVersion + '/accounts', accountApiRoutes);
-
+app.use('/api' + apiVersion + '/accounts' , accountApiRoutes);
+app.use('/api' + apiVersion + '/profiles' , profileApiRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
