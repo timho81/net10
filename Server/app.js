@@ -1,3 +1,5 @@
+// Load .env file with environment variables
+require('dotenv').load();
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -23,13 +25,9 @@ require('./api_app/configs/passport');
 
 var app = express();
 
-// Constants
-var apiVersion = '/v1';
-var db_connection_uri = 'mongodb://localhost/net10';
-
 // Connect ExpressJS to MongoDB
 var mongoose = require('mongoose');
-mongoose.connect(db_connection_uri, function(err) {
+mongoose.connect(process.env.DB_CONNECTION_URI, function(err) {
   if(err) {
     console.log('connection error', err);
   } else {
@@ -55,8 +53,8 @@ app.use(passport.initialize());
 app.use('/', routes);
 app.use('/users', users);
 
-app.use('/api' + apiVersion + '/accounts' , accountApiRoutes);
-app.use('/api' + apiVersion + '/profiles' , profileApiRoutes);
+app.use('/api' + process.env.API_VERSION + '/accounts' , accountApiRoutes);
+app.use('/api' + process.env.API_VERSION + '/profiles' , profileApiRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

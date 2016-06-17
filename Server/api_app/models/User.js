@@ -25,13 +25,15 @@ UserSchema.methods.validPassword = function(password) {
 UserSchema.methods.generateJwt = function() {
   var expiry = new Date();
   expiry.setDate(expiry.getDate() + 7);
-  
+
+  // For the sake of security, JWT_SECRET is not published in a shared repository.
+  // Instead, it is externalized into .env file residing under app root dir, local machine
   return jwt.sign({
     _id: this._id,
     email: this.email,
     name: this.username,
     exp: parseInt(expiry.getTime() / 1000),
-  }, '01ten_secret' );
+  }, process.env.JWT_SECRET);
 };
 
 module.exports = mongoose.model('User', UserSchema);

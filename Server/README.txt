@@ -44,6 +44,11 @@ III. Project Source Code:
 
 - Change db and api version settings in Server/app.js
 
+- Under app root dir, create .env file, fill in environment vars as follows:
+    API_VERSION=/v1
+    DB_CONNECTION_URI=mongodb://localhost/net10
+    JWT_SECRET=01ten_secret
+
 Run the api app on server:
 
 - Move the command prompt to Server dir.

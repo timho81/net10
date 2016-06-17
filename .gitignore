@@ -1,2 +1,8 @@
+# IDE-specific data dir
 .idea/
+
+# Dependency Dir
 Server/node_modules/
+
+# File that hosts app environment vars (secret string ...)
+.env
