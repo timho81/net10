@@ -65,7 +65,7 @@ Use Postman for exploring Endpoint APIs, some samples as follows:
 Uri                                                 Method          Json-formatted Body                          Request Header                   Returned Payload         Description          
  
 http://localhost:3000/api/v1/accounts/login         Post            {"username": "","password": ""}                                               a token string           Authenticate a User/Account
-
-http://localhost:3000/api/v1/accounts               Post            {"username": "","password": "",             Authorization: Bearer [token]     success/failure          Create a new user/account                                
+                                                                     "cell": "", "workPhone": "",
+                                                                     "homePhone": "", "address": "",
 																	 "email": "", "firstName": "",
 																	 "lastName":"", "authorities":""}
