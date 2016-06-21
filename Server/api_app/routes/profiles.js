@@ -14,14 +14,14 @@ var auth = jwt({
 // Include endpoint files
 var profileEP = require('../endpoints/profileEP');
 
-// CRUD routes
-router.post('/', auth, profileEP.create);
-// router.post('/', profileEP.create);
-router.put('/:id', auth, profileEP.update);
-// router.put('/:id', profileEP.update);
-router.get('/:id', auth, profileEP.findById);
-// router.get('/:id', profileEP.findById);
-
+// CRUD routes for profile
+router.post('/', auth, profileEP.create)
+      .put('/:id', auth, profileEP.update)
+      .get('/:id', auth, profileEP.findById);
 // Finder methods will go here
+
+// CRUD routes for Company Contact
+router.post('/companyContact', auth, profileEP.create)
+      .put('/companyContact/:id', auth, profileEP.update);
 
 module.exports = router;

@@ -17,7 +17,7 @@ var UserSchema = new mongoose.Schema({
   email: {type: String, unique: true, required: true, match: [/.+\@.+\..+/, "Please fill an email-compliant format!"]
     // , validate: emailValidator
   },
-  firstName: String,
+  firstName: {type: String, required: true},
   lastName: String,
   authorities: [{type: String,
     enum: ['ROLE_ADMIN','ROLE_MANAGER','ROLE_RECRUITER','ROLE_CANDIDATE'],
