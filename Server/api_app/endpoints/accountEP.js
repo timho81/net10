@@ -13,7 +13,7 @@ var sendJSONresponse = function(res, status, content) {
 };
 
 
-// User AuthenC
+// User AuthC
 module.exports.login = function (req, res) {
     console.log('Authenticating an account...');
 
@@ -42,8 +42,8 @@ module.exports.login = function (req, res) {
 
 };
 
-// Create a new account
-module.exports.create = function (req, res) {
+// Set up a new account
+module.exports.setup = function (req, res) {
     // Data validation
     console.log('Validating user entries...');
     if(!req.body.username || !req.body.email || !req.body.password) {
@@ -51,6 +51,11 @@ module.exports.create = function (req, res) {
         "message": "Required fields can not be left blank"
       });
       return;
+    } else if (req.body.password.length < 6){ // Validate pwd complexity
+        sendJSONresponse(res, 400, {
+            "message": "Password must be at least 6 characters"
+        });
+        return;
     }
 
     // When there are no matches find() returns []
@@ -60,16 +65,21 @@ module.exports.create = function (req, res) {
 
         if (!users.length) {
             console.log('Non-existent');
-            // Create a new account whose username/email have not existed in the app
+            // Set up a new account whose username/email have not existed in the app
 
-            console.log('Creating a new account...');
+            console.log('Setting up a new account...');
             var user = new User();
 
             user.username = req.body.username;
             user.setPassword(req.body.password);
+            user.cell = req.body.cell;
+            user.workPhone = req.body.workPhone;
+            user.homePhone = req.body.homePhone;
+
             user.email = req.body.email;
             user.firstName = req.body.firstName;
             user.lastName = req.body.lastName;
+            user.address = req.body.address;
             user.authorities = req.body.authorities;
 
             user.save(function(err) {
@@ -83,7 +93,7 @@ module.exports.create = function (req, res) {
                     });
                 }
             });
-            console.log('A new account has been created');
+            console.log('A new account has been set up');
 
         } else {
             console.log('An account with this username or email has already existed, please retry with other inputs');
@@ -107,6 +117,10 @@ module.exports.modify = function (req, res) {
         user.email = req.body.email;
         user.firstName = req.body.firstName;
         user.lastName = req.body.lastName;
+        user.cell = req.body.cell;
+        user.workPhone = req.body.workPhone;
+        user.homePhone = req.body.homePhone;
+        user.address = req.body.address;
         user.authorities = req.body.authorities;
 
         user.save(function(err) {

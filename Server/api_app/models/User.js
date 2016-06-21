@@ -1,4 +1,5 @@
 // User model
+// var util = require('util');
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
@@ -7,12 +8,21 @@ var uuid = require('node-uuid');
 var UserSchema = new mongoose.Schema({
   _id: { type: String, default: uuid.v4}, // Randomly generated uuid
   username: {type: String, unique: true, required: true},
-  hashedPassword: String, // one-way hashed password
+  hashedPassword: {type: String, unique: true, required: true}, // one-way hashed password
   salt: String,
-  email: {type: String, unique: true, required: true},
+  cell: {type: String, required: true},
+  workPhone: String,
+  homePhone: String,
+  address: {type: String, maxlength: 200},
+  email: {type: String, unique: true, required: true, match: [/.+\@.+\..+/, "Please fill an email-compliant format!"]
+    // , validate: emailValidator
+  },
   firstName: String,
   lastName: String,
-  authorities: [String]
+  authorities: [{type: String,
+    enum: ['ROLE_ADMIN','ROLE_MANAGER','ROLE_RECRUITER','ROLE_CANDIDATE'],
+    required: true
+  }] // Valid role inputs must fall into these enum values
 });
 UserSchema.methods.setPassword = function(password){
   this.salt = crypto.randomBytes(16).toString('hex');

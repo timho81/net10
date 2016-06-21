@@ -11,7 +11,7 @@ var ProfileSchema = new mongoose.Schema({
     title: {type: String, required: true},
     background: {type: String, required: true},
     industry: {type: String, required: true},
-    yearsOfExperience: {type: Number, required: true},
+    yearsOfExperience: {type: Number, min: 0, required: true},
     userId: {type: String, required: true}
 });
 
