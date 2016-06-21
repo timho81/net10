@@ -16,6 +16,7 @@ var auth = jwt({
 // CRUD routes
 router.post('/login', accountEP.login) // Account AuthenC
     .post('/', auth, accountEP.setup) // Account Registration
+    .put('/changePassword/:id', auth, accountEP.changePassword) // Change password
     .put('/:id', auth, accountEP.modify)
     .get('/:id', auth, accountEP.findById)
     .get('/findByUsername/:username', auth, accountEP.findByUsername); // Finder routes

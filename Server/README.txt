@@ -27,7 +27,7 @@ username/password: admin/1
 
 $ db.users.insert(
    [
-     { _id: "3a6d423d-0fa5-4150-a99d-a921496be7ef", username: "admin", hashedPassword: "53d445b05949589489b8481c2d22d5a677a1abf869e76c17d4f39824fb5aa48b88fd95d25e1b9aeadafc32dce86b459626ea59f6165e725a2140eb348ffc3148", "salt" : "012c6de2a17fc0c8bbc79b01fe4f807d", email: "admin@markduvall.com", firstName: "Mark Admin", lastName: "Duvall Admin", "authorities":["ROLE_ADMIN","ROLE_MANAGER","ROLE_RECRUITER","ROLE_USER"],"__v" : 0 }
+     { _id: "3a6d423d-0fa5-4150-a99d-a921496be7ef", username: "admin", hashedPassword: "53d445b05949589489b8481c2d22d5a677a1abf869e76c17d4f39824fb5aa48b88fd95d25e1b9aeadafc32dce86b459626ea59f6165e725a2140eb348ffc3148", "salt" : "012c6de2a17fc0c8bbc79b01fe4f807d", email: "admin@markduvall.com", firstName: "Mark Admin", lastName: "Duvall Admin", cell: "123456", "authorities":["ROLE_ADMIN","ROLE_MANAGER","ROLE_RECRUITER"],"__v" : 0 }
    ]
 )
 

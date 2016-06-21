@@ -136,6 +136,28 @@ module.exports.modify = function (req, res) {
     });
 };
 
+// Change account 's password
+module.exports.changePassword = function (req, res) {
+
+    console.log('Changing password for the account with id = ' + req.params.id);
+
+    // Find user by id
+    User.findById(req.params.id, function (err, user) {
+        user.setPassword(req.body.newPassword);
+
+        user.save(function(err) {
+            if (err) {
+                sendJSONresponse(res, 500, err);
+            } else {
+                console.log('Password has been changed');
+                sendJSONresponse(res, 200, {
+                    "status" : "changed"
+                });
+            }
+        });
+    });
+};
+
 
 // Finder methods
 // Find accounts by query criteria
