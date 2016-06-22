@@ -1,4 +1,4 @@
-FROM node:4.4.5
+FROM node:4
 
 # Install npm 2.15.5
 
@@ -17,7 +17,10 @@ FROM node:4.4.5
 RUN cd /Server; npm install
 
 # Bundle app source
+
+
 COPY . /Server
+# ADD . /Server
 
 EXPOSE 3000
 CMD [ "npm", "start" ]
