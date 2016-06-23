@@ -1,5 +1,10 @@
 // Load .env file with environment variables
-require('dotenv').load();
+//require('dotenv').load();
+
+var dotEnv = require('dotenv');
+dotEnv.config({path: '/Server/.env'});
+//dotEnv.load();
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');

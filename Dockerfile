@@ -20,11 +20,15 @@ FROM gcr.io/google_appengine/nodejs
 # Bundle app source
 
 
-COPY . /Server
-# ADD . /Server
+COPY /Server /Server
+#COPY /Server/.env /Server
+# ADD /Server
 
 # Install app dependencies
 RUN cd /Server; npm install
+#RUN npm install
 
 EXPOSE 3000
-CMD [ "npm", "start" ]
+#CMD [ "npm", "start" ]
+CMD ["node", "/Server/bin/www"]
+
