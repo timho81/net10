@@ -15,18 +15,23 @@ var auth = jwt({
 var profileEP = require('../endpoints/profileEP');
 
 // CRUD routes for profile
-// router.post('/:candidateId', auth, profileEP.create)
-//       .put('/:id', auth, profileEP.update)
-//       .get('/:id', auth, profileEP.findById);
+// POST /api/{version}/profiles/candidateId
+router.post('/:candidateId', auth, profileEP.create)
+      // PUT /api/{version}/profiles
+      .put('/:id', auth, profileEP.update)
+      // GET /api/{version}/profiles/id
+      .get('/:id', auth, profileEP.findById);
 
-router.post('/:candidateId', profileEP.create)
-    .put('/:id', profileEP.update)
-    .get('/:id', profileEP.findById);
+// router.post('/:candidateId', profileEP.create)
+//     .put('/:id', profileEP.update)
+//     .get('/:id', profileEP.findById);
 
 // Finder methods will go here
 
 // CRUD routes for Company Contact
+// POST /api/{version}/profiles/companyContact
 router.post('/companyContact', auth, profileEP.createContact)
+      // PUT /api/{version}/profiles/companyContact
       .put('/companyContact/:id', auth, profileEP.updateContact);
 
 // router.post('/updateSettings', auth, profileEP.updateSettings)
