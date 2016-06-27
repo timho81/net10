@@ -48,6 +48,8 @@ III. Project Source Code:
     API_VERSION=/v1
     DB_CONNECTION_URI=mongodb://localhost/net10
     JWT_SECRET=01ten_secret
+	
+- Switch the loading of env file in app.js by commenting/uncommenting code lines
 
 Run the api app on server:
 

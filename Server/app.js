@@ -1,8 +1,11 @@
 // Load .env file with environment variables
-//require('dotenv').load();
 
-var dotEnv = require('dotenv');
-dotEnv.config({path: '/Server/.env'});
+// Dev env
+require('dotenv').load();
+
+// Prod env
+//var dotEnv = require('dotenv');
+//dotEnv.config({path: '/Server/.env'});
 //dotEnv.load();
 
 var express = require('express');
