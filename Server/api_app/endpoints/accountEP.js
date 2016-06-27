@@ -5,20 +5,14 @@
 var passport = require('passport');
 var mongoose = require('mongoose');
 var User = require('../models/User.js');
-
-// Util method
-var sendJSONresponse = function(res, status, content) {
-    res.status(status);
-    res.json(content);
-};
-
+var utils = require('../utils/utils.js');
 
 // User AuthC
 module.exports.login = function (req, res) {
     console.log('Authenticating an account...');
 
     if(!req.body.username || !req.body.password) {
-        sendJSONresponse(res, 400, {
+        utils.sendJSONresponse(res, 400, {
             "message": "All fields required"
         });
         return;
@@ -27,16 +21,16 @@ module.exports.login = function (req, res) {
     passport.authenticate('local', function(err, user, info){
         var token;
         if (err) {
-            sendJSONresponse(res, 404, err);
+            utils.sendJSONresponse(res, 404, err);
             return;
         }
         if(user){
             token = user.generateJwt();
-            sendJSONresponse(res, 200, {
+            utils.sendJSONresponse(res, 200, {
                 "token" : token
             });
         } else {
-            sendJSONresponse(res, 401, info);
+            utils.sendJSONresponse(res, 401, info);
         }
     })(req, res);
 
@@ -47,12 +41,12 @@ module.exports.setup = function (req, res) {
     // Data validation
     console.log('Validating user entries...');
     if(!req.body.username || !req.body.email || !req.body.password) {
-      sendJSONresponse(res, 400, {
+        utils.sendJSONresponse(res, 400, {
         "message": "Required fields can not be left blank"
       });
       return;
     } else if (req.body.password.length < 6){ // Validate pwd complexity
-        sendJSONresponse(res, 400, {
+        utils.sendJSONresponse(res, 400, {
             "message": "Password must be at least 6 characters"
         });
         return;
@@ -85,10 +79,10 @@ module.exports.setup = function (req, res) {
             user.save(function(err) {
                 var token;
                 if (err) {
-                    sendJSONresponse(res, 404, err);
+                    utils.sendJSONresponse(res, 404, err);
                 } else {
                     token = user.generateJwt();
-                    sendJSONresponse(res, 200, {
+                    utils.sendJSONresponse(res, 200, {
                         "token" : token
                     });
                 }
@@ -97,7 +91,7 @@ module.exports.setup = function (req, res) {
 
         } else {
             console.log('An account with this username or email has already existed, please retry with other inputs');
-            sendJSONresponse(res, 500, {
+            utils.sendJSONresponse(res, 500, {
                 "message" : "username or email has already existed, please retry!"
             });
 
@@ -125,10 +119,10 @@ module.exports.modify = function (req, res) {
 
         user.save(function(err) {
             if (err) {
-                sendJSONresponse(res, 500, err);
+                utils.sendJSONresponse(res, 500, err);
             } else {
                 console.log('The account has been modified');
-                sendJSONresponse(res, 200, {
+                utils.sendJSONresponse(res, 200, {
                     "status" : "updated"
                 });
             }
@@ -147,10 +141,10 @@ module.exports.changePassword = function (req, res) {
 
         user.save(function(err) {
             if (err) {
-                sendJSONresponse(res, 500, err);
+                utils.sendJSONresponse(res, 500, err);
             } else {
                 console.log('Password has been changed');
-                sendJSONresponse(res, 200, {
+                utils.sendJSONresponse(res, 200, {
                     "status" : "changed"
                 });
             }
@@ -179,18 +173,18 @@ module.exports.findByUsername = function (req, res) {
     var username = req.params.username;
     User.findOne({ username: username }, function (err, user) {
         if (err) {
-            sendJSONresponse(res, 500,  {
+            utils.sendJSONresponse(res, 500,  {
                 "error_message": "An internal server error occurred"
             });
         }
         if (!user) {
             console.log('The account with username = ' + username + ' can not be found');
-            sendJSONresponse(res, 404,  {
+            utils.sendJSONresponse(res, 404,  {
                 "message": "Account not found"
             });
         } else {
             console.log('The account with username = ' + username + ' has been found');
-            sendJSONresponse(res, 200, user);
+            utils.sendJSONresponse(res, 200, user);
         }
 
     });

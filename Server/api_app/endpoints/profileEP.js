@@ -5,12 +5,7 @@
 var mongoose = require('mongoose');
 var Profile = require('../models/Profile.js');
 var CompanyContact = require('../models/CompanyContact.js');
-
-// Util method
-var sendJSONresponse = function(res, status, content) {
-    res.status(status);
-    res.json(content);
-};
+var utils = require('../utils/utils.js');
 
 // Create a new profile
 module.exports.create = function (req, res) {
@@ -20,13 +15,13 @@ module.exports.create = function (req, res) {
     profile.background = req.body.background;
     profile.industry = req.body.industry;
     profile.yearsOfExperience = req.body.yearsOfExperience;
-    profile.userId = req.body.userId;
+    profile.candidateId = req.params.candidateId;
 
     profile.save(function(err) {
         if (err) {
-            sendJSONresponse(res, 404, err);
+            utils.sendJSONresponse(res, 404, err);
         } else {
-            sendJSONresponse(res, 200, {
+            utils.sendJSONresponse(res, 200, {
                 "status" : "created"
             });
         }
@@ -34,16 +29,17 @@ module.exports.create = function (req, res) {
     console.log('A new profile has been created');
 };
 
-
 // Update an existing profile
 module.exports.update = function (req, res) {
     console.log('Updating a profile with id = ' + req.params.id);
 
     Profile.findByIdAndUpdate(req.params.id, req.body, function (err, profile) {
-        if (err)
+        if (err) {
+            utils.sendJSONresponse(res, 404, err);
             return next(err);
+        }
 
-        sendJSONresponse(res, 200,  {
+        utils.sendJSONresponse(res, 200,  {
             "status": "updated"
         });
     });
@@ -64,9 +60,16 @@ module.exports.findById = function (req, res) {
 };
 
 
+// Update Settings
+// module.exports.updateSettings = function (req, res) {
+
+    // Unimplemented
+// }
+
+
 // CRUDs operations on Company Contact - Hiring Manager
 // Create company contact
-module.exports.create = function (req, res) {
+module.exports.createContact = function (req, res) {
     var companyContact = new CompanyContact();
 
     companyContact.name = req.body.name;
@@ -79,9 +82,9 @@ module.exports.create = function (req, res) {
 
     companyContact.save(function(err) {
         if (err) {
-            sendJSONresponse(res, 404, err);
+            utils.sendJSONresponse(res, 404, err);
         } else {
-            sendJSONresponse(res, 200, {
+            utils.sendJSONresponse(res, 200, {
                 "status" : "created"
             });
         }
@@ -90,18 +93,19 @@ module.exports.create = function (req, res) {
 };
 
 // Update an existing company contact
-module.exports.update = function (req, res) {
+module.exports.updateContact = function (req, res) {
     console.log('Updating a company contact with id = ' + req.params.id);
 
     CompanyContact.findByIdAndUpdate(req.params.id, req.body, function (err, companyContact) {
         if (err)
             return next(err);
 
-        sendJSONresponse(res, 200,  {
+        utils.sendJSONresponse(res, 200,  {
             "status": "updated"
         });
     });
 
     console.log('The company contact has been updated');
 };
+
 
