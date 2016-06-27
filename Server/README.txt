@@ -46,6 +46,7 @@ III. Project Source Code:
 
 - Under app root dir, create .env file, fill in environment vars specific to dev/test/prod environments as the example that follows:
     API_VERSION=/v1
+	PORT=8080
     DB_CONNECTION_URI=mongodb://localhost/net10
     JWT_SECRET=01ten_secret
 	
