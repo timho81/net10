@@ -6,7 +6,7 @@ require('dotenv').load();
 // Prod env
 //var dotEnv = require('dotenv');
 //dotEnv.config({path: '/Server/.env'});
-//dotEnv.load();
+
 
 var express = require('express');
 var path = require('path');
