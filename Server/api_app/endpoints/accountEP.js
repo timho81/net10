@@ -37,7 +37,7 @@ module.exports.login = function (req, res) {
 };
 
 // Set up a new account
-module.exports.setup = function (req, res) {
+module.exports.create = function (req, res) {
     // Data validation
     console.log('Validating user entries...');
     if(!req.body.username || !req.body.email || !req.body.password) {
@@ -61,7 +61,7 @@ module.exports.setup = function (req, res) {
             console.log('Non-existent');
             // Set up a new account whose username/email have not existed in the app
 
-            console.log('Setting up a new account...');
+            console.log('Creating a new account...');
             var user = new User();
 
             user.username = req.body.username;
@@ -87,7 +87,7 @@ module.exports.setup = function (req, res) {
                     });
                 }
             });
-            console.log('A new account has been set up');
+            console.log('A new account has been created');
 
         } else {
             console.log('An account with this username or email has already existed, please retry with other inputs');
@@ -102,9 +102,9 @@ module.exports.setup = function (req, res) {
 
 // Modify an existing account, all fields are modifiable except for username (non-editable once created),
 // password (belongs to other use cases, change/reset pwd)
-module.exports.modify = function (req, res) {
+module.exports.update = function (req, res) {
 
-    console.log('Modifying an account with id = ' + req.params.id);
+    console.log('Updating an account with id = ' + req.params.id);
 
     // Find user by id
     User.findById(req.params.id, function (err, user) {
@@ -121,7 +121,7 @@ module.exports.modify = function (req, res) {
             if (err) {
                 utils.sendJSONresponse(res, 500, err);
             } else {
-                console.log('The account has been modified');
+                console.log('The account has been updated');
                 utils.sendJSONresponse(res, 200, {
                     "status" : "updated"
                 });
