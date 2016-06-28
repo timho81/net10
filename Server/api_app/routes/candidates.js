@@ -29,19 +29,19 @@ router.delete('/:id', auth, candidateEP.delete);
 router.get('/:id', auth, candidateEP.findById);
 // router.get('/:id', candidateEP.findById);
 
-// Candidate Profile Summary CRUDs for recruiters
+// Candidate Summary CRUDs for recruiters
 // POST /api/{version}/candidates/summary/profileId
-router.post('/summary/:profileId', auth, candidateEP.addSummary);
-// router.post('/summary/:profileId', candidateEP.addSummary);
-// PUT /api/{version}/candidates/summary/profileId
-router.put('/summary:profileId', auth, candidateEP.updateSummary);
-// router.put('/summary/:profileId', candidateEP.updateSummary);
-// DELETE /api/{version}/candidates/summary/profileId
-router.delete('/summary/:profileId', auth, candidateEP.deleteSummary);
-// router.delete('/summary/:profileId', candidateEP.deleteSummary);
-// GET /api/{version}/candidates/summary/profileId
-router.get('/summary/:profileId', auth, candidateEP.findSummaryByProfileId);
-// router.get('/summary/:profileId', candidateEP.findSummaryByProfileId);
+router.post('/summary/:candidateId', auth, candidateEP.addSummary);
+// router.post('/summary/:candidateId', candidateEP.addSummary);
+// PUT /api/{version}/candidates/summary/candidateId
+router.put('/summary:candidateId', auth, candidateEP.updateSummary);
+// router.put('/summary/:candidateId', candidateEP.updateSummary);
+// DELETE /api/{version}/candidates/summary/candidateId
+router.delete('/summary/:candidateId', auth, candidateEP.deleteSummary);
+// router.delete('/summary/:candidateId', candidateEP.deleteSummary);
+// GET /api/{version}/candidates/summary/candidateId
+router.get('/summary/:candidateId', auth, candidateEP.findSummaryByCandidateId);
+// router.get('/summary/:candidateId', candidateEP.findSummaryByCandidateId);
 
 
 // For managers

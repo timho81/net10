@@ -55,18 +55,18 @@ module.exports.findById = function(req, res, next) {
 };
 
 
-// Impl of Candidate Profile Summary CRUDs
+// Impl of Candidate Summary CRUDs
 module.exports.addSummary = function (req, res) {
     // Find profile by id
-    Profile.findById(req.params.profileId, function (err, profile) {
+    Candidate.findById(req.params.candidateId, function (err, candidate) {
 
-        profile.summary = req.body.summary;
+        candidate.summary = req.body.summary;
 
-        profile.save(function(err) {
+        candidate.save(function(err) {
             if (err) {
                 sendJSONresponse(res, 500, err);
             } else {
-                console.log('The summary has been added to candidate profile');
+                console.log('The candidate summary has been added by recruiters');
                 utils.sendJSONresponse(res, 200, {
                     "status" : "added"
                 });
@@ -77,16 +77,16 @@ module.exports.addSummary = function (req, res) {
 };
 
 module.exports.updateSummary = function (req, res) {
-    // Find profile by id
-    Profile.findById(req.params.profileId, function (err, profile) {
+    // Find Candidate Summary by id
+    Candidate.findById(req.params.candidateId, function (err, candidate) {
 
-        profile.summary = req.body.summary;
+        candidate.summary = req.body.summary;
 
-        profile.save(function(err) {
+        candidate.save(function(err) {
             if (err) {
                 sendJSONresponse(res, 500, err);
             } else {
-                console.log('The candidate profile summary has been updated');
+                console.log('The candidate summary has been updated by recruiters');
                 utils.sendJSONresponse(res, 200, {
                     "status" : "updated"
                 });
@@ -97,15 +97,15 @@ module.exports.updateSummary = function (req, res) {
 
 module.exports.deleteSummary = function (req, res) {
     // Find profile by id
-    Profile.findById(req.params.profileId, function (err, profile) {
+    Candidate.findById(req.params.candidateId, function (err, candidate) {
 
-        profile.summary = null;
+        candidate.summary = null;
 
-        profile.save(function(err) {
+        candidate.save(function(err) {
             if (err) {
                 sendJSONresponse(res, 500, err);
             } else {
-                console.log('The candidate profile summary has been deleted');
+                console.log('The candidate summary has been deleted by recruiters');
                 utils.sendJSONresponse(res, 200, {
                     "status" : "deleted"
                 });
@@ -115,8 +115,9 @@ module.exports.deleteSummary = function (req, res) {
 
 };
 
-module.exports.findSummaryByProfileId = function (req, res) {
-    Profile.findById(req.params.profileId, function (err, post) {
+module.exports.findSummaryByCandidateId = function (req, res) {
+    // Find candidate by id
+    Candidate.findById(req.params.candidateId, function (err, post) {
         if (err)
             return next(err);
 
