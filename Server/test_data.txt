@@ -1,10 +1,10 @@
 Sample test data (JSON_formatted):
 
 
-API				                         Url                                                       Input Data
+Service				API				                         Url                                                       Input Data
 
-Login                      POST /api/{version}/accounts/login
-Create Account             POST /api/{version}/accounts                                       {
+Account				Login                      POST /api/{version}/accounts/login                                 {"username":"admin", "password":"1"}
+					Create Account             POST /api/{version}/accounts                                       {
 																								"username": "timho1",
 																								"password": "123456",
 																								"cell": "111111111",
@@ -18,7 +18,7 @@ Create Account             POST /api/{version}/accounts                         
 																							  }
 
 
-Update Account             PUT /api/{version}/accounts/id                                     {
+					Update Account             PUT /api/{version}/accounts/id                                     {
 																								"cell": "",
 																								"workPhone": "",
 																								"homePhone": "",
@@ -29,14 +29,49 @@ Update Account             PUT /api/{version}/accounts/id                       
 																								"authorities": ["ROLE_ADMIN","ROLE_USER"]
                                                                   							  }														  
 																							  
-Get Account                GET /api/{version}/accounts/id                                     
+					Get Account                GET /api/{version}/accounts/id                                     
 
-Get Account by username    GET /api/{version}/accounts/findByUsername/username
+					Get Account by username    GET /api/{version}/accounts/findByUsername/username
 
 																							  
-Change Password            PUT /api/{version}/accounts/changePassword/id                      {
-																								"newPassord": ""		
-																							 }  
+					Change Password            PUT /api/{version}/accounts/changePassword/id    {
+																									"newPassord": ""		
+																							    }  
+																							 
+Profile             Create Profile             POST /api/{version}/profiles/candidateId          {
+																									"title": "SSE 33",
+																									"background": "Technologies 33",
+																									"industry": "Software Engineering 33",
+																									"yearsOfExperience": 5,	
+																									"summary":"Sum 1"
+																								} 
+                    Update Profile             PUT /api/{version}/profiles                       {
+																									"title": "SSE 33.11",
+																									"background": "Technologies 33",
+																									"industry": "Software Engineering 33",
+																									"yearsOfExperience": 5,	
+																									"summary":"Sum 1"
+																								}                   																								
+																						 
+					Get Profile                GET /api/{version}/profiles/id
 
+					Create Company Contact     POST /api/{version}/profiles/companyContact       {
+																									"name": "sony1",
+																									"title": "Manager",
+																									"address": "Addr 1",
+																									"email": "sony1@gmail.com",	
+																									"phoneNumber": "111111",
+																									"cellNumber": "11111",
+																									"type": "HIRING_MANAGER"	
+																									}	
 
-                            
+					Update Company Contact      PUT /api/{version}/profiles/companyContact/companyContactId     {
+																												"name": "sony1.2",
+																												"title": "Manager",
+																												"address": "Addr 1",
+																												"email": "sony1.2@gmail.com",	
+																												"phoneNumber": "111111",
+																												"cellNumber": "11111",
+																												"type": "HIRING_MANAGER"	
+																												}
+																									
