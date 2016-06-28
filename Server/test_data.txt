@@ -18,7 +18,7 @@ Account				Login                      POST /api/{version}/accounts/login        
 																							  }
 
 
-					Update Account             PUT /api/{version}/accounts/id                                     {
+					Update Account             PUT /api/{version}/accounts/{id}                                     {
 																								"cell": "",
 																								"workPhone": "",
 																								"homePhone": "",
@@ -29,16 +29,16 @@ Account				Login                      POST /api/{version}/accounts/login        
 																								"authorities": ["ROLE_ADMIN","ROLE_USER"]
                                                                   							  }														  
 																							  
-					Get Account                GET /api/{version}/accounts/id                                     
+					Get Account                GET /api/{version}/accounts/{id}                                     
 
-					Get Account by username    GET /api/{version}/accounts/findByUsername/username
+					Get Account by username    GET /api/{version}/accounts/findByUsername/{username}
 
 																							  
-					Change Password            PUT /api/{version}/accounts/changePassword/id    {
+					Change Password            PUT /api/{version}/accounts/changePassword/{id}    {
 																									"newPassord": ""		
 																							    }  
 																							 
-Profile             Create Profile             POST /api/{version}/profiles/candidateId          {
+Profile             Create Profile             POST /api/{version}/profiles/{candidateId}          {
 																									"title": "SSE 33",
 																									"background": "Technologies 33",
 																									"industry": "Software Engineering 33",
@@ -53,7 +53,7 @@ Profile             Create Profile             POST /api/{version}/profiles/cand
 																									"summary":"Sum 1"
 																								}                   																								
 																						 
-					Get Profile                GET /api/{version}/profiles/id
+					Get Profile                GET /api/{version}/profiles/{id}
 
 					Create Company Contact     POST /api/{version}/profiles/companyContact       {
 																									"name": "sony1",
@@ -65,7 +65,7 @@ Profile             Create Profile             POST /api/{version}/profiles/cand
 																									"type": "HIRING_MANAGER"	
 																									}	
 
-					Update Company Contact      PUT /api/{version}/profiles/companyContact/companyContactId     {
+					Update Company Contact      PUT /api/{version}/profiles/companyContact/{companyContactId}     {
 																												"name": "sony1.2",
 																												"title": "Manager",
 																												"address": "Addr 1",
