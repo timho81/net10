@@ -95,9 +95,9 @@ module.exports.createContact = function (req, res) {
 
 // Update an existing company contact
 module.exports.updateContact = function (req, res) {
-    console.log('Updating a company contact with id = ' + req.params.id);
+    console.log('Updating a company contact with id = ' + req.params.companyContactId);
 
-    CompanyContact.findByIdAndUpdate(req.params.id, req.body, function (err, companyContact) {
+    CompanyContact.findByIdAndUpdate(req.params.companyContactId, req.body, function (err, companyContact) {
         if (err)
             return next(err);
 

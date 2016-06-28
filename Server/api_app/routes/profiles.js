@@ -31,8 +31,8 @@ router.post('/:candidateId', auth, profileEP.create)
 // CRUD routes for Company Contact
 // POST /api/{version}/profiles/companyContact
 router.post('/companyContact', auth, profileEP.createContact)
-      // PUT /api/{version}/profiles/companyContact
-      .put('/companyContact/:id', auth, profileEP.updateContact);
+      // PUT /api/{version}/profiles/companyContact/companyContactId
+      .put('/companyContact/:companyContactId', auth, profileEP.updateContact);
 
 // router.post('/updateSettings', auth, profileEP.updateSettings)
 
