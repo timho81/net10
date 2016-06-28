@@ -1,0 +1,42 @@
+Sample test data (JSON_formatted):
+
+
+API				                         Url                                                       Input Data
+
+Login                      POST /api/{version}/accounts/login
+Create Account             POST /api/{version}/accounts                                       {
+																								"username": "timho1",
+																								"password": "123456",
+																								"cell": "111111111",
+																								"workPhone": "1111111",
+																								"homePhone": "1111111",
+																								"address": "A 1",
+																								"email": "timho1@gmail.com",
+																								"firstName": "Tim",
+																								"lastName": "Ho 1",
+																								"authorities": ["ROLE_ADMIN","ROLE_MANAGER"]
+																							  }
+
+
+Update Account             PUT /api/{version}/accounts/id                                     {
+																								"cell": "",
+																								"workPhone": "",
+																								"homePhone": "",
+																								"address": "A 2",
+																								"email": "timho1.2@gmail.com",
+																								"firstName": "Tim",
+																								"lastName": "Ho 1.2",
+																								"authorities": ["ROLE_ADMIN","ROLE_USER"]
+                                                                  							  }														  
+																							  
+Get Account                GET /api/{version}/accounts/id                                     
+
+Get Account by username    GET /api/{version}/accounts/findByUsername/username
+
+																							  
+Change Password            PUT /api/{version}/accounts/changePassword/id                      {
+																								"newPassord": ""		
+																							 }  
+
+
+                            
