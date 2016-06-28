@@ -15,6 +15,7 @@ module.exports.create = function (req, res) {
     profile.background = req.body.background;
     profile.industry = req.body.industry;
     profile.yearsOfExperience = req.body.yearsOfExperience;
+    profile.summary = req.body.summary;
     profile.candidateId = req.params.candidateId;
 
     profile.save(function(err) {
