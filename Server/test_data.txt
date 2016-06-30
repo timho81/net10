@@ -74,4 +74,76 @@ Profile             Create Profile             POST /api/{version}/profiles/{can
 																												"cellNumber": "11111",
 																												"type": "HIRING_MANAGER"	
 																												}
-																									
+
+Candidate           Create Candidate            POST /api/{version}/candidates	                                 {
+																													"firstName": "F1",
+																												    "lastName": "L1",
+																												    "country": "c1",
+																												    "address": "a1",
+																												    "city": "c1",
+																												    "state"": "s1",
+																												    "zip": "z1",
+																												    "mobile": "1",
+																												    "workPhone": "1",
+																												    "homePhone": "1",
+																												    "email": "candidate1@gmail.com",
+																												    "email2": "candidate1.2@gmail.com",
+																												    "linkedIn": "l1",
+																												    "personalSite": "candidate1.com",
+																												    "customFields": ["cf1","cf2"],
+																												    "skillsetTags": ["sst1","sst2"],                          
+																												    "industryTags": ["it1","it2"],
+																												    "positionTag": "pt1",
+																												    "title": "Dev1",
+																												    "recruiterOwnership": "ro1",                               
+																												    "notesField": "n1",
+																												    "workHistory": "wh1",
+																												    "educationHistory": "eh1",
+																												    "rating": 1
+																												}	                               	
+
+					Update Candidate            PUT /api/{version}/candidates/{id}                              as in Create
+					
+					Delete Candidate            DELETE /api/{version}/candidates/{id}
+					
+					Get Candidate               GET /api/{version}/candidates/{id}
+					
+					
+					
+					
+					Create Candidate Summary    POST /api/{version}/candidates/summary/{candidateId}            {
+																													"summary": "Summary 1"
+																												}
+
+					Update Candidate Summary    PUT /api/{version}/candidates/summary/{candidateId}		        {
+																													"summary": "Summary 1.2"
+																												}			
+					
+					Delete Candidate Summary    DELETE /api/{version}/candidates/summary/{candidateId}
+					
+					Get Candidate Summary       GET /api/{version}/candidates/summary/{candidateId}
+					
+					
+
+Job Req	            Create Job Req			    POST /api/{version}/jobReqs	                                     {
+																													"name": "Job Req 1",
+																													"description": " desc 1",
+																													"responsibilities": ["Develop assigned tasks","Report to Team Leader"],
+																													"requirements": ["B.A in IT","Practical experience in Java"],
+																													"candidateIds": [""]
+																												}
+
+					Update Job Req			    PUT /api/{version}/jobReqs/{id}	                                  {
+																													"name": "Job Req 1.2",
+																													"description": " desc 1",
+																													"responsibilities": ["Develop assigned tasks","Report to Team Leader"],
+																													"requirements": ["B.A in IT","Practical experience in Java"],
+																													"candidateIds": [""]
+																												}
+																												
+																												
+				    Delete Job Req			    DELETE /api/{version}/jobReqs/{id}
+					
+					Get a Job Req			    GET /api/{version}/jobReqs/{id}
+
+					
