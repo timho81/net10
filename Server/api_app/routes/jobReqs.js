@@ -15,14 +15,14 @@ var auth = jwt({
 var jobReqEP = require('../endpoints/jobReqEP');
 
 // CRUD routes
-// router.post('/', auth, jobReqEP.create);
-router.post('/', jobReqEP.create);
-// router.put('/:id', auth, jobReqEP.update);
-router.put('/:id', jobReqEP.update);
-// router.delete('/:id', auth, jobReqEP.delete);
-router.delete('/:id', jobReqEP.delete);
-// router.get('/:id', auth, jobReqEP.findById);
-router.get('/:id', jobReqEP.findById);
+router.post('/', auth, jobReqEP.create);
+// router.post('/', jobReqEP.create);
+router.put('/:id', auth, jobReqEP.update);
+// router.put('/:id', jobReqEP.update);
+router.delete('/:id', auth, jobReqEP.delete);
+// router.delete('/:id', jobReqEP.delete);
+router.get('/:id', auth, jobReqEP.findById);
+// router.get('/:id', jobReqEP.findById);
 
 
 
