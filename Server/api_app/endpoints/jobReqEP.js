@@ -9,9 +9,16 @@ var mongoose = require('mongoose');
 var JobReq = require('../models/JobReq.js');
 var utils = require('../utils/utils.js');
 
-
 // Create a new req
 module.exports.create = function (req, res) {
+    if (!utils.isAuthorized(req)) {
+        console.log('You are unauthorized to create a new req');
+        utils.sendJSONresponse(res, 403, {
+            "status" : "unauthorized"
+        });
+        return;
+    }
+
     JobReq.create(req.body, function (err, post) {
         if (err) {
             sendJSONresponse(res, 404, err);
@@ -27,6 +34,14 @@ module.exports.create = function (req, res) {
 
 // Update an existing jobReq
 module.exports.update = function (req, res) {
+    if (!utils.isAuthorized(req)) {
+        console.log('You are unauthorized to create a new req');
+        utils.sendJSONresponse(res, 403, {
+            "status" : "unauthorized"
+        });
+        return;
+    }
+
     console.log('Updating a job req with id = ' + req.params.id);
 
     JobReq.findByIdAndUpdate(req.params.id, req.body, function (err, jobReq) {
@@ -42,6 +57,14 @@ module.exports.update = function (req, res) {
 };
 
 module.exports.delete = function (req, res) {
+    if (!utils.isAuthorized(req)) {
+        console.log('You are unauthorized to create a new req');
+        utils.sendJSONresponse(res, 403, {
+            "status" : "unauthorized"
+        });
+        return;
+    }
+
     JobReq.findByIdAndRemove(req.params.id, req.body, function (err, post) {
         if (err) {
             sendJSONresponse(res, 404, err);
@@ -87,3 +110,4 @@ module.exports.viewJobPacket = function (req, res) {
 
 };
 ///////////////////////////////////////////////////////////////
+
