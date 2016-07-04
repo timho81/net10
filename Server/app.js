@@ -26,8 +26,9 @@ var accountApiRoutes = require('./api_app/routes/accounts');
 var profileApiRoutes = require('./api_app/routes/profiles');
 var candidateApiRoutes = require('./api_app/routes/candidates');
 var jobReqRoutes = require('./api_app/routes/jobReqs');
+var interviewRoutes = require('./api_app/routes/interviews');
 
-// API routes for Web components access go here
+// API routes finterviewor Web components access go here
 // var accountServerRoutes = require('./server_app/routes/accounts');
 // var profileServerRoutes = require('./server_app/routes/profiles');
 
@@ -67,6 +68,7 @@ app.use('/api' + process.env.API_VERSION + '/accounts' , accountApiRoutes);
 app.use('/api' + process.env.API_VERSION + '/profiles' , profileApiRoutes);
 app.use('/api' + process.env.API_VERSION + '/candidates' , candidateApiRoutes);
 app.use('/api' + process.env.API_VERSION + '/jobReqs' , jobReqRoutes);
+app.use('/api' + process.env.API_VERSION + '/interviews' , interviewRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
