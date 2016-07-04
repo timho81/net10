@@ -146,4 +146,8 @@ Job Req	            Create Job Req			    POST /api/{version}/jobReqs	           
 					
 					Get a Job Req			    GET /api/{version}/jobReqs/{id}
 
-					
+					Search For Reqs (Job Listings) GET /api/v1/jobreqs/searchForReqs/{name}/{description}/{requirements}
+					                               (if one is unspecified, null needs to appear)
+												   
+												   
+					Assign Candidate To Req		PUT /api/v1/jobreqs/assignCandidateToReq/{jobId}/{candidateId}
