@@ -33,7 +33,8 @@ var CandidateSchema = new mongoose.Schema({
     notesField: {type: String, maxlength: 200},
     workHistory: String,
     educationHistory: String,
-    summary: {type: String, required: true}, // authored by recruiters
+    summary: {type: String}, // authored by recruiters
+    jobIds: [String],
     rating: Number
 });
 

@@ -38,11 +38,11 @@ var app = express();
 
 // Connect ExpressJS to MongoDB
 var mongoose = require('mongoose');
-mongoose.connect(process.env.DB_CONNECTION_URI, function(err) {
+mongoose.connect(process.env.DB_CONNECTION_URI, function(err, database) {
   if(err) {
     console.log('connection error', err);
   } else {
-    console.log('connection successful');
+    console.log('Db connected');
   }
 });
 
@@ -112,3 +112,4 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+

@@ -7,6 +7,7 @@
 
 var mongoose = require('mongoose');
 var JobReq = require('../models/JobReq.js');
+var Candidate = require('../models/Candidate.js');
 var utils = require('../utils/utils.js');
 
 // Create a new req
@@ -91,14 +92,63 @@ module.exports.findById = function (req, res) {
 
 
 // Operations made by recruiters
+// Filter Job Reqs by name/description/requirements
 /////////////////////////////////////////////////////////////
-module.exports.searchForReqs = function (req, res) {
 
+module.exports.searchForReqs = function (req, res) {
+    var name = req.params.name;
+    var description = req.params.description;
+    var requirements = req.params.requirements;
+
+    JobReq.find({name:{ $regex : name }, description:{ $regex : description },
+        requirements:{ $regex : requirements }}, function(err, results){
+
+        if (results.length > 0)
+            res.jsonp(results);
+        else {
+            utils.sendJSONresponse(res, 404, {
+                "status" : "empty"
+            });
+        }
+    });
 
 };
 
 module.exports.assignCandidateToReq = function (req, res) {
+    var jobId = req.params.jobId;
+    var candidateId = req.params.candidateId;
 
+    // Find job by id
+    // JobReq.findById(jobId, function (err, jobReq) {
+    //     jobReq.candidateIds.push(candidateId);
+    //
+    //     jobReq.save(function(err) {
+    //         if (err) {
+    //             utils.sendJSONresponse(res, 500, err);
+    //         } else {
+    //             console.log('The job has been associated to the candidate');
+    //             utils.sendJSONresponse(res, 200, {
+    //                 "status" : "associated"
+    //             });
+    //         }
+    //     });
+    // });
+
+    // Find candidate by id
+    Candidate.findById(candidateId, function (err, candidate) {
+        candidate.jobIds.push(jobId);
+
+        candidate.save(function(err) {
+            if (err) {
+                utils.sendJSONresponse(res, 500, err);
+            } else {
+                console.log('The candidate has been assigned to the job');
+                utils.sendJSONresponse(res, 200, {
+                    "status" : "assigned"
+                });
+            }
+        });
+    });
 
 };
 /////////////////////////////////////////////////////////////////

@@ -28,10 +28,10 @@ router.get('/:id', auth, jobReqEP.findById);
 
 // Routes to operations made by recruiters
 // Search for requisitions by criteria (job name/description/requirements)
-// router.get('/:id',  jobReqEP.searchForReqs);
-router.get('/:name/:description/:requirements', jobReqEP.searchForReqs);
-// router.get('/:id', auth, jobReqEP.assignCandidateToReq);
-router.get('/:candidateId/:reqId', jobReqEP.assignCandidateToReq);
+router.get('/searchForReqs/:name/:description/:requirements', auth, jobReqEP.searchForReqs);
+
+// router.put('/assignCandidateToReq/:jobId/:candidateId', jobReqEP.assignCandidateToReq);
+router.put('/assignCandidateToReq/:jobId/:candidateId', auth, jobReqEP.assignCandidateToReq);
 
 // Routes to operations made by candidates
 // router.get('/', auth, jobReqEP.viewJobPacket);
