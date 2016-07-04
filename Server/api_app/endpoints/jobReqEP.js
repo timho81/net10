@@ -11,7 +11,7 @@ var utils = require('../utils/utils.js');
 
 // Create a new req
 module.exports.create = function (req, res) {
-    if (!utils.isAuthorized(req)) {
+    if (!utils.isAuthorized(req, 'ROLE_MANAGER')) {
         console.log('You are unauthorized to create a new req');
         utils.sendJSONresponse(res, 403, {
             "status" : "unauthorized"
@@ -34,7 +34,7 @@ module.exports.create = function (req, res) {
 
 // Update an existing jobReq
 module.exports.update = function (req, res) {
-    if (!utils.isAuthorized(req)) {
+    if (!utils.isAuthorized(req, 'ROLE_MANAGER')) {
         console.log('You are unauthorized to create a new req');
         utils.sendJSONresponse(res, 403, {
             "status" : "unauthorized"
@@ -57,7 +57,7 @@ module.exports.update = function (req, res) {
 };
 
 module.exports.delete = function (req, res) {
-    if (!utils.isAuthorized(req)) {
+    if (!utils.isAuthorized(req, 'ROLE_MANAGER')) {
         console.log('You are unauthorized to create a new req');
         utils.sendJSONresponse(res, 403, {
             "status" : "unauthorized"

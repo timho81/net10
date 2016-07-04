@@ -8,15 +8,25 @@ module.exports = {
         res.status(status);
         res.json(content);
     },
-    isAuthorized: function(req) {
-        var roles = req.payload.authorities;
+    isAuthorized: function(req, roles) {
+        var authorities = req.payload.authorities;
         var authorized = false;
-        for (var i = 0; i< roles.length;i++)
-            if (roles[i] == 'ROLE_MANAGER') {
-                authorized = true;
-                break;
-            }
-        console.log('#### authorized=' + authorized );
+
+        if (roles.indexOf(',') == -1) {// one role only
+            for (var i = 0; i< authorities.length;i++)
+                if (roles == authorities[i]) {
+                    authorized = true;
+                    break;
+                }
+        } else {
+            for (var i = 0; i< authorities.length;i++)
+                if (roles.split(',').indexOf(authorities[i]) == 1) {
+                    authorized = true;
+                    break;
+                }
+        }
+
+        console.log('authorized=' + authorized);
         return authorized;
 }
 };
