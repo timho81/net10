@@ -11,6 +11,7 @@ var utils = require('../utils/utils.js');
 
 // Create a new req
 module.exports.create = function (req, res) {
+    
     if (!utils.isAuthorized(req, 'ROLE_MANAGER')) {
         console.log('You are unauthorized to create a new req');
         utils.sendJSONresponse(res, 403, {
