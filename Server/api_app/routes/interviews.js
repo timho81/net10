@@ -4,20 +4,14 @@
 
 var express = require('express');
 var router = express.Router();
+var sec = require('../security/security.js');
 
-var jwt = require('express-jwt');
-var auth = jwt({
-    secret: process.env.JWT_SECRET,
-    userProperty: 'payload'
-});
-
-// Include endpoint files
 var interviewEP = require('../endpoints/interviewEP');
 
-// router.post('/', auth, interviewEP.create)       // Manager requests an interview
-//     .put('/reschedule/:id', auth, interviewEP.reschedule)
-//     .put('/respond/:id', auth, interviewEP.respond)// accept/decline an interview by candidates
-//     .cancel('/:id', auth, interviewEP.cancel);   // Reject/cancel a scheduled interview
+// router.post('/', sec.getAuth(), interviewEP.create)       // Manager requests an interview
+//     .put('/reschedule/:id', sec.getAuth(), interviewEP.reschedule)
+//     .put('/respond/:id', sec.getAuth(), interviewEP.respond)// accept/decline an interview by candidates
+//     .cancel('/:id', sec.getAuth(), interviewEP.cancel);   // Reject/cancel a scheduled interview
 
 router.post('/', interviewEP.create)       // Manager requests an interview
     .put('/reschedule/:id', interviewEP.reschedule) // Update the scheduled time

@@ -3,28 +3,24 @@
  */
 var express = require('express');
 var router = express.Router();
+var sec = require('../security/security.js');
 
 // Include endpoint files
 var accountEP = require('../endpoints/accountEP');
 
-var jwt = require('express-jwt');
-var auth = jwt({
-    secret: process.env.JWT_SECRET,
-    userProperty: 'payload'
-});
 
 // CRUD routes
 // POST /api/{version}/accounts/login
 router.post('/login', accountEP.login) // Account AuthenC
     // POST /api/{version}/accounts
-    .post('/', auth, accountEP.create) // Account Registration
+    .post('/', sec.getAuth(), accountEP.create) // Account Registration
     // PUT /api/{version}/accounts/changePassword/id
-    .put('/changePassword/:id', auth, accountEP.changePassword) // Change password
+    .put('/changePassword/:id', sec.getAuth(), accountEP.changePassword) // Change password
     // PUT /api/{version}/accounts/id
-    .put('/:id', auth, accountEP.update)
+    .put('/:id', sec.getAuth(), accountEP.update)
     // GET /api/{version}/accounts/id
-    .get('/:id', auth, accountEP.findById)
+    .get('/:id', sec.getAuth(), accountEP.findById)
     // GET /api/{version}/accounts/findByUsername/username
-    .get('/findByUsername/:username', auth, accountEP.findByUsername); // Finder routes
+    .get('/findByUsername/:username', sec.getAuth(), accountEP.findByUsername); // Finder routes
 
 module.exports = router;
