@@ -13,7 +13,7 @@ var accountEP = require('../endpoints/accountEP');
 // POST /api/{version}/accounts/login
 router.post('/login', accountEP.login) // Account AuthenC
     // POST /api/{version}/accounts
-    .post('/', sec.getAuth(), accountEP.create) // Account Registration
+    .post('/', accountEP.create) // Account Registration
     // PUT /api/{version}/accounts/changePassword/id
     .put('/changePassword/:id', sec.getAuth(), accountEP.changePassword) // Change password
     // PUT /api/{version}/accounts/id
