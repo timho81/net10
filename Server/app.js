@@ -1,11 +1,11 @@
 // Load .env file with environment variables
 
 // Dev env
-require('dotenv').load();
+//require('dotenv').load();
 
 // Prod env
-//var dotEnv = require('dotenv');
-//dotEnv.config({path: '/Server/.env'});
+var dotEnv = require('dotenv');
+dotEnv.config({path: '/Server/.env'});
 
 
 var express = require('express');
@@ -27,6 +27,7 @@ var profileApiRoutes = require('./api_app/routes/profiles');
 var candidateApiRoutes = require('./api_app/routes/candidates');
 var jobReqRoutes = require('./api_app/routes/jobReqs');
 var interviewRoutes = require('./api_app/routes/interviews');
+// var offerRoutes = require('./api_app/routes/offers');
 
 // API routes finterviewor Web components access go here
 // var accountServerRoutes = require('./server_app/routes/accounts');
@@ -69,6 +70,7 @@ app.use('/api' + process.env.API_VERSION + '/profiles' , profileApiRoutes);
 app.use('/api' + process.env.API_VERSION + '/candidates' , candidateApiRoutes);
 app.use('/api' + process.env.API_VERSION + '/jobReqs' , jobReqRoutes);
 app.use('/api' + process.env.API_VERSION + '/interviews' , interviewRoutes);
+// app.use('/api' + process.env.API_VERSION + '/offers' , offerRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
