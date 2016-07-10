@@ -35,7 +35,8 @@ var CandidateSchema = new mongoose.Schema({
     educationHistory: String,
     summary: {type: String}, // authored by recruiters
     jobIds: [String],
-    rating: Number
+    rating: Number,
+    passedOn: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model('Candidate', CandidateSchema);

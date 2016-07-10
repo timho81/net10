@@ -139,9 +139,25 @@ module.exports.viewCandidateResume = function (req, res) {
 
 };
 
+// Managers decide if they are interested in the candidate a not
+// once this is set to true, the candidate can not apply for this position for the second time
 module.exports.passCandidate = function (req, res) {
+    // Find candidate by id
+    Candidate.findById(req.params.id, function (err, candidate) {
+        candidate.passedOn = true;
 
-
+        candidate.save(function(err) {
+            if (err) {
+                utils.sendJSONresponse(res, 500, err);
+            } else {
+                console.log('The candidate has been passed on by a manager ' +
+                    'as he is not interested in this candidate');
+                utils.sendJSONresponse(res, 200, {
+                    "status" : "passed"
+                });
+            }
+        });
+    });
 };
 
 module.exports.offerCandidate = function (req, res) {
