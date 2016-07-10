@@ -7,6 +7,7 @@
 
 var mongoose = require('mongoose');
 var JobReq = require('../models/JobReq.js');
+var JobPacket = require('../models/JobPacket.js');
 var Candidate = require('../models/Candidate.js');
 var sec = require('../security/security.js');
 
@@ -154,11 +155,14 @@ module.exports.assignCandidateToReq = function (req, res) {
 /////////////////////////////////////////////////////////////////
 
 
-// Operations made by candidates
+// Operations made by candidates, view a job package for a corresponding job/req for which a candidate is applying
 /////////////////////////////////////////////////////////////
 module.exports.viewJobPacket = function (req, res) {
-
-
+    JobPacket.findById(req.params.id, function (err, jobPacket) {
+        if (err) return next(err);
+        res.json(jobPacket);
+    });
+    console.log('A job package has been retrieved and returned');
 };
 ///////////////////////////////////////////////////////////////
 
