@@ -27,6 +27,7 @@ module.exports.login = function (req, res) {
         if(user){
             token = user.generateJwt();
             utils.sendJSONresponse(res, 200, {
+                "userId" : user._id,
                 "token" : token
             });
         } else {
@@ -83,6 +84,7 @@ module.exports.create = function (req, res) {
                 } else {
                     token = user.generateJwt();
                     utils.sendJSONresponse(res, 200, {
+                        "userId" : user._id,
                         "token" : token
                     });
                 }
