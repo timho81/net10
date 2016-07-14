@@ -40,14 +40,14 @@ router.get('/summary/:candidateId', sec.getAuth(), candidateEP.findSummaryByCand
 
 
 // For managers
-// router.get('/', sec.getAuth(), candidateEP.swipeCandidateSummaries);
-router.get('/', candidateEP.swipeCandidateSummaries);
+router.get('/summaries/:all', sec.getAuth(), candidateEP.swipeCandidateSummaries);
+// router.get('/summaries/:all', candidateEP.swipeCandidateSummaries);
 // router.get('/', sec.getAuth(), candidateEP.viewCandidateResume);
-router.get('/', candidateEP.viewCandidateResume);
+// router.get('/', candidateEP.viewCandidateResume);
 // router.post('/', sec.getAuth(), candidateEP.passCandidate);
-router.post('/', candidateEP.passCandidate);
+// router.post('/', candidateEP.passCandidate);
 // router.post('/', sec.getAuth(), candidateEP.offerCandidate);
-router.post('/', candidateEP.offerCandidate);
+// router.post('/', candidateEP.offerCandidate);
 
 
 module.exports = router;

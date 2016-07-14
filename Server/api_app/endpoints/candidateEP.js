@@ -54,7 +54,6 @@ module.exports.findById = function(req, res, next) {
     });
 };
 
-
 // Impl of Candidate Summary CRUDs
 module.exports.addSummary = function (req, res) {
     // Find profile by id
@@ -130,7 +129,16 @@ module.exports.findSummaryByCandidateId = function (req, res) {
 
 // Operations for managers
 module.exports.swipeCandidateSummaries = function (req, res) {
+    console.log('Listing candidate summaries...');
 
+    Candidate.find({}, '_id summary', function(err, candidates) {
+        if (!err){
+            res.json(candidates);
+        } else {
+            utils.sendJSONresponse(res, 500, err);
+            throw err;
+        }
+    });
 
 };
 
