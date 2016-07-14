@@ -131,7 +131,7 @@ module.exports.findSummaryByCandidateId = function (req, res) {
 module.exports.swipeCandidateSummaries = function (req, res) {
     console.log('Listing candidate summaries...');
 
-    Candidate.find({}, '_id summary', function(err, candidates) {
+    Candidate.find({}, '_id firstName lastName summary', function(err, candidates) {
         if (!err){
             res.json(candidates);
         } else {
