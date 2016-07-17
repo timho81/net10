@@ -1,7 +1,7 @@
 // Load .env file with environment variables
 
 // Dev env
-//require('dotenv').load();
+// require('dotenv').load();
 
 // Prod env
 var dotEnv = require('dotenv');
@@ -20,6 +20,8 @@ var passport = require('passport');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+
+var indexRoute = require('./api_app/routes/index');
 
 // Endpoint API routes go here
 var accountApiRoutes = require('./api_app/routes/accounts');
@@ -65,6 +67,8 @@ app.use(passport.initialize());
 
 app.use('/', routes);
 app.use('/users', users);
+
+app.use('/index', indexRoute);
 
 app.use('/api' + process.env.API_VERSION + '/accounts' , accountApiRoutes);
 app.use('/api' + process.env.API_VERSION + '/profiles' , profileApiRoutes);
