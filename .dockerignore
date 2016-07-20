@@ -1,0 +1,5 @@
+.git
+.gitignore
+Server/node_modules/
+Server/*.docx
+Server/*.txt
