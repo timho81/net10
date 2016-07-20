@@ -32,7 +32,7 @@ module.exports.sendOfferLetter = function (req, res) {
     // Candidate 's email
     var recipient = req.body.email;
     var content = 'Dear Applicant,<br>' +
-        'We would like to inform that you have been selected for the position you apply to. ' +
+        'We would like to inform that you have been selected for the position for which you apply. ' +
         'You can find the Offer Package from attachments herein. Please contact us for your questions.<br><br>' +
         'Best Regards,<br><br>' +
         'Recruitment Team';
