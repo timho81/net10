@@ -3,9 +3,10 @@
  */
 
 var nodeMailer = require('nodemailer');
+var utils = require('./utils.js');
 
 module.exports = {
-    doSend: function (recipient, subject, content) {
+    doSend: function (res, recipient, subject, content) {
         // For gmail successful login, access for less secure apps must be turned on
         var transporter = nodeMailer.createTransport({
             service: process.env.MAIL_SERVICE,
@@ -24,10 +25,15 @@ module.exports = {
         };
 
         transporter.sendMail(mailOptions, function(error, info){
-            if(error){
-                return console.log(error);
+            if (error) {
+                utils.sendJSONresponse(res, 500, error);
+                console.log('An error occurred while sending email, message: ' + error);
+            } else {
+                utils.sendJSONresponse(res, 200, {
+                    "status": "sent"
+                });
+                console.log('Email has been sent: ' + info.response);
             }
-            console.log('Email has been sent: ' + info.response);
         });
     }
 };

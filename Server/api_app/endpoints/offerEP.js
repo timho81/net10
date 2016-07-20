@@ -36,7 +36,7 @@ module.exports.sendOfferLetter = function (req, res) {
         'You can find the Offer Package from attachments herein. Please contact us for your questions.<br><br>' +
         'Best Regards,<br><br>' +
         'Recruitment Team';
-    emails.doSend(recipient, subject, content);
+    emails.doSend(res, recipient, subject, content);
 };
 
 
