@@ -4,12 +4,28 @@
 
 
 var mongoose = require('mongoose');
+var Offer = require('../models/Offer.js');
 var OfferPackage = require('../models/OfferPackage.js');
 var emails = require('../utils/emails.js');
 var utils = require('../utils/utils.js');
 
 // customized by a company
 module.exports.create = function (req, res) {
+    Offer.create(req.body, function (err, post) {
+        if (err) {
+            sendJSONresponse(res, 404, err);
+            return next(err);
+        }
+        utils.sendJSONresponse(res, 200, {
+            "status" : "created"
+        });
+    });
+    console.log('A new offer has been created');
+};
+
+
+// Create a new offer package for a candidate
+module.exports.createOfferPackage = function (req, res) {
     OfferPackage.create(req.body, function (err, post) {
         if (err) {
             sendJSONresponse(res, 404, err);

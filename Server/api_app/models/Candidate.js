@@ -34,7 +34,7 @@ var CandidateSchema = new mongoose.Schema({
     workHistory: String,
     educationHistory: String,
     summary: {type: String}, // authored by recruiters
-    jobIds: [String],
+    jobIds: [String], // positions for which the candidate applied
     rating: Number,
     passedOn: {type: Boolean, default: false}
 });
