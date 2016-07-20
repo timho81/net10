@@ -17,6 +17,7 @@
     "mongoose": "^4.4.20",
     "morgan": "~1.6.1",
     "node-uuid": "~1.4.6",
+    "nodemailer": "^2.5.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.3.0"

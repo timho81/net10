@@ -14,6 +14,7 @@ var offerEP = require('../endpoints/offerEP');
 // sent to candidate
 router.post('/', sec.getAuth(), offerEP.create);
 
-router.post('/', sec.getAuth(), offerEP.sendToCandidate);
+// router.post('/sendOfferLetter', offerEP.sendOfferLetter);
+router.post('/sendOfferLetter', sec.getAuth(), offerEP.sendOfferLetter);
 
 module.exports = router;
