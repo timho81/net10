@@ -10,10 +10,12 @@ var JobReq = require('../models/JobReq.js');
 var JobPacket = require('../models/JobPacket.js');
 var Candidate = require('../models/Candidate.js');
 var sec = require('../security/security.js');
+var utils = require('../utils/utils.js');
 
 // Create a new req
 module.exports.create = function (req, res) {
 
+    // error
     if (!sec.isAuthorized(req, 'ROLE_MANAGER')) {
         console.log('You are unauthorized to create a new req');
         utils.sendJSONresponse(res, 403, {
@@ -91,6 +93,40 @@ module.exports.findById = function (req, res) {
     console.log('A job req has been found');
 };
 
+// Find applicants/candidates by a job req for which candidates applied
+module.exports.findCandidatesByJobReq = function (req, res) {
+    console.log('Fetching candidates by job req...');
+
+    JobReq.findById(req.params.id)
+        .select('candidateIds')
+        .exec(function(err, jobReq) {
+                Candidate.find().where('_id').in(jobReq.candidateIds).exec(function(err, candidates) {
+                    if (candidates.length > 0)
+                        res.jsonp(candidates);
+                    else {
+                        utils.sendJSONresponse(res, 404, {
+                            "status" : "empty"
+                        });
+                    }
+                });
+            }
+        );
+};
+
+// Find job reqs by a manager who created them
+module.exports.findJobReqsByManager = function (req, res) {
+    console.log('Fetching job reqs by manager...');
+
+    JobReq.find().where('createdBy').equals(req.params.managerId).exec(function(err, jobReqs) {
+        if (jobReqs.length > 0)
+            res.jsonp(jobReqs);
+        else {
+            utils.sendJSONresponse(res, 404, {
+                "status" : "empty"
+            });
+        }
+    });
+};
 
 // Operations made by recruiters
 // Filter Job Reqs by name/description/requirements

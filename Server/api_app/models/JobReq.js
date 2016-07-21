@@ -12,6 +12,7 @@ var JobReqSchema = new mongoose.Schema({
     description: {type: String, required: true}, // job description
     responsibilities: {type: [String], required: true},   // ones a candidate will take once being admitted
     requirements: {type: [String], required: true}, // ones a candidate needs to meet to apply for the position
+    createdBy: {type: String, required: true}, // id of user/manager who created this job req
     candidateIds: [String]
 });
 

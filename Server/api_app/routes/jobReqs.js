@@ -19,8 +19,6 @@ router.delete('/:id', sec.getAuth(), jobReqEP.delete);
 router.get('/:id', sec.getAuth(), jobReqEP.findById);
 // router.get('/:id', jobReqEP.findById);
 
-
-
 // Routes to operations made by recruiters
 // Search for requisitions by criteria (job name/description/requirements)
 router.get('/searchForReqs/:name/:description/:requirements', sec.getAuth(), jobReqEP.searchForReqs);
@@ -28,8 +26,14 @@ router.get('/searchForReqs/:name/:description/:requirements', sec.getAuth(), job
 // router.put('/assignCandidateToReq/:jobId/:candidateId', jobReqEP.assignCandidateToReq);
 router.put('/assignCandidateToReq/:jobId/:candidateId', sec.getAuth(), jobReqEP.assignCandidateToReq);
 
+// router.get('/findCandidatesByJobReq/:id', jobReqEP.findCandidatesByJobReq);
+router.get('/findCandidatesByJobReq/:id', sec.getAuth(),  jobReqEP.findCandidatesByJobReq);
+
+// router.get('/findJobReqsByManager/:managerId', jobReqEP.findJobReqsByManager);
+router.get('/findJobReqsByManager/:managerId', sec.getAuth(), jobReqEP.findJobReqsByManager);
+
 // Routes to operations made by candidates
-// router.get('/', auth, jobReqEP.viewJobPacket);
-router.get('/', jobReqEP.viewJobPacket); // view job listings?
+router.get('/', sec.getAuth(), jobReqEP.viewJobPacket);
+// router.get('/', jobReqEP.viewJobPacket); // view job listings?
 
 module.exports = router;
