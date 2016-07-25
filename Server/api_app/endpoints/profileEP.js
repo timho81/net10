@@ -2,6 +2,8 @@
  * Created by Tim Ho on 6/16/2016.
  */
 
+
+
 var mongoose = require('mongoose');
 var Profile = require('../models/Profile.js');
 var CompanyContact = require('../models/CompanyContact.js');
@@ -9,6 +11,7 @@ var utils = require('../utils/utils.js');
 
 // Create a new profile
 module.exports.create = function (req, res) {
+
     var profile = new Profile();
 
     profile.title = req.body.title;
@@ -47,7 +50,6 @@ module.exports.update = function (req, res) {
 
     console.log('The profile has been modified');
 };
-
 
 // Find an profile by id
 module.exports.findById = function (req, res) {

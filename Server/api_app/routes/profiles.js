@@ -5,6 +5,19 @@
 var express = require('express');
 var router = express.Router();
 
+var multer  = require('multer');
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, process.env.RESUMES_DIR)
+    },
+    filename: function (req, file, cb) {
+        cb(null, req.params.candidateId + '-' + file.originalname);
+}
+});
+
+var uploadResume = multer({ storage: storage });
+
 var jwt = require('express-jwt');
 var auth = jwt({
     secret: process.env.JWT_SECRET,
@@ -16,9 +29,9 @@ var profileEP = require('../endpoints/profileEP');
 
 // CRUD routes for profile
 // POST /api/{version}/profiles/candidateId
-router.post('/:candidateId', auth, profileEP.create)
+router.post('/:candidateId', auth, uploadResume.single('resume'), profileEP.create)
       // PUT /api/{version}/profiles
-      .put('/:id', auth, profileEP.update)
+      .put('/:id/:candidateId', auth, uploadResume.single('resume'), profileEP.update)
       // GET /api/{version}/profiles/id
       .get('/:id', auth, profileEP.findById);
 
