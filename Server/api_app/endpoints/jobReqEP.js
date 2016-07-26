@@ -7,7 +7,7 @@
 
 var mongoose = require('mongoose');
 var JobReq = require('../models/JobReq.js');
-var JobPacket = require('../models/JobPacket.js');
+var JobPackage = require('../models/JobPackage.js');
 var Candidate = require('../models/Candidate.js');
 var sec = require('../security/security.js');
 var utils = require('../utils/utils.js');
@@ -26,7 +26,7 @@ module.exports.create = function (req, res) {
 
     JobReq.create(req.body, function (err, post) {
         if (err) {
-            sendJSONresponse(res, 404, err);
+            utils.sendJSONresponse(res, 404, err);
             return next(err);
         }
         utils.sendJSONresponse(res, 200, {
@@ -190,13 +190,56 @@ module.exports.assignCandidateToReq = function (req, res) {
 };
 /////////////////////////////////////////////////////////////////
 
+module.exports.addDocumentToJobPackage = function (req, res) {
+    JobPackage.create(req.body, function (err, post) {
+        if (err) {
+            utils.sendJSONresponse(res, 404, err);
+            // return next(err);
+        }
+        utils.sendJSONresponse(res, 200, {
+            "status" : "created"
+        });
+    });
+    console.log('A document has been added to this job req');
+};
+
+module.exports.updateDocumentToJobPackage = function (req, res) {
+    JobPackage.findByIdAndUpdate(req.params.id, req.body, function (err, jobPackage) {
+        if (err)
+            return next(err);
+
+        utils.sendJSONresponse(res, 200,  {
+            "status": "updated"
+        });
+    });
+
+    console.log('A document has been updated to this job req');
+};
+
+module.exports.deleteDocumentFromJobPackage = function (req, res) {
+    JobPackage.findByIdAndRemove(req.params.id, req.body, function (err, post) {
+        if (err) {
+            utils.sendJSONresponse(res, 404, err);
+            return next(err);
+        }
+        utils.sendJSONresponse(res, 200, {
+            "status" : "deleted"
+        });
+    });
+
+    // Delete physical document file under server 's data dir
+
+    console.log('The document has been deleted from this job req');
+};
+
+
 
 // Operations made by candidates, view a job package for a corresponding job/req for which a candidate is applying
 /////////////////////////////////////////////////////////////
-module.exports.viewJobPacket = function (req, res) {
-    JobPacket.findById(req.params.id, function (err, jobPacket) {
+module.exports.viewJobPackage = function (req, res) {
+    JobPackage.findById(req.params.id, function (err, jobPackage) {
         if (err) return next(err);
-        res.json(jobPacket);
+        res.json(jobPackage);
     });
     console.log('A job package has been retrieved and returned');
 };

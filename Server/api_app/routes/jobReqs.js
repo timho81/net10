@@ -5,6 +5,7 @@
 var express = require('express');
 var router = express.Router();
 var sec = require('../security/security.js');
+var uploader = require('../utils/uploader.js');
 
 // Include endpoint files
 var jobReqEP = require('../endpoints/jobReqEP');
@@ -32,8 +33,20 @@ router.get('/findCandidatesByJobReq/:id', sec.getAuth(),  jobReqEP.findCandidate
 // router.get('/findJobReqsByManager/:managerId', jobReqEP.findJobReqsByManager);
 router.get('/findJobReqsByManager/:managerId', sec.getAuth(), jobReqEP.findJobReqsByManager);
 
+
+// Operations on Job Package 's Documents
+// router.post('/document/:jobId', uploadDocument.single('document'), jobReqEP.addDocumentToJobPackage);
+// router.post('/document/:jobId', sec.getAuth(), uploadDocument.single('document'), jobReqEP.addDocumentToJobPackage);
+router.post('/document/:jobId', sec.getAuth(), uploader.uploadDocument().single('document'), jobReqEP.addDocumentToJobPackage);
+
+// router.put('/document/:jobId', uploader.uploadDocument().single('document'), jobReqEP.updateDocumentToJobPackage);
+router.put('/document/:jobId', sec.getAuth(),uploader.uploadDocument().single('document'), jobReqEP.updateDocumentToJobPackage);
+
+router.delete('/document/:jobId', jobReqEP.deleteDocumentFromJobPackage);
+// router.delete('/document/:jobId', sec.getAuth(), jobReqEP.deleteDocumentFromJobPackage)
+
 // Routes to operations made by candidates
-router.get('/', sec.getAuth(), jobReqEP.viewJobPacket);
-// router.get('/', jobReqEP.viewJobPacket); // view job listings?
+router.get('/', sec.getAuth(), jobReqEP.viewJobPackage);
+// router.get('/', jobReqEP.viewJobPackage);
 
 module.exports = router;
