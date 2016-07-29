@@ -24,12 +24,13 @@ module.exports.create = function (req, res) {
         return;
     }
 
-    JobReq.create(req.body, function (err, post) {
+    JobReq.create(req.body, function (err, jobReq) {
         if (err) {
             utils.sendJSONresponse(res, 500, err);
         }
         utils.sendJSONresponse(res, 200, {
-            "status" : "created"
+            "status" : "created",
+            "jobId" : jobReq._id
         });
     });
     console.log('A new job req has been created');

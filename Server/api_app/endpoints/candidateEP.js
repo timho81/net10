@@ -9,13 +9,13 @@ var utils = require('../utils/utils.js');
 
 // Impl of Candidate CRUDs
 module.exports.create = function (req, res) {
-    Candidate.create(req.body, function (err, post) {
+    Candidate.create(req.body, function (err, candidate) {
         if (err) {
             sendJSONresponse(res, 404, err);
-            return next(err);
         }
         utils.sendJSONresponse(res, 200, {
-            "status" : "created"
+            "status" : "created",
+            "candidateId": candidate._id
         });
     });
 };
@@ -23,8 +23,7 @@ module.exports.create = function (req, res) {
 module.exports.update = function (req, res) {
     Candidate.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
         if (err) {
-            sendJSONresponse(res, 404, err);
-            return next(err);
+            sendJSONresponse(res, 500, err);
         }
         utils.sendJSONresponse(res, 200, {
                     "status" : "updated"
@@ -35,8 +34,7 @@ module.exports.update = function (req, res) {
 module.exports.delete = function (req, res) {
     Candidate.findByIdAndRemove(req.params.id, req.body, function (err, post) {
         if (err) {
-            sendJSONresponse(res, 404, err);
-            return next(err);
+            sendJSONresponse(res, 500, err);
         }
         utils.sendJSONresponse(res, 200, {
             "status" : "deleted"
@@ -48,7 +46,7 @@ module.exports.delete = function (req, res) {
 module.exports.findById = function(req, res, next) {
     Candidate.findById(req.params.id, function (err, post) {
         if (err) {
-            return next(err);
+            sendJSONresponse(res, 404, err);
         }
         res.json(post);
     });
@@ -118,7 +116,7 @@ module.exports.findSummaryByCandidateId = function (req, res) {
     // Find candidate by id
     Candidate.findById(req.params.candidateId, function (err, post) {
         if (err)
-            return next(err);
+            sendJSONresponse(res, 404, err);
 
         utils.sendJSONresponse(res, 200, {
             "summary" : post.summary
@@ -136,7 +134,6 @@ module.exports.swipeCandidateSummaries = function (req, res) {
             res.json(candidates);
         } else {
             utils.sendJSONresponse(res, 500, err);
-            throw err;
         }
     });
 
@@ -168,7 +165,16 @@ module.exports.passCandidate = function (req, res) {
     });
 };
 
-module.exports.offerCandidate = function (req, res) {
+// Depends how you want to implement it.  You need to track which offers went to
+// which candidates and know the state of the offer after it was extended.
+// So  that offer has an association with the manager, candidate and req.
+// It has three states;  created, extended, [accepted/rejected]
+// Offers can only be made on open reqs
+// once an offer has been accepted, the opening count should be decremented,
+// because there could be multiple openings
+// multiple openings per job req
 
+module.exports.offerCandidate = function (req, res) {
+    // Create associations between candidate and offer entities
 
 };

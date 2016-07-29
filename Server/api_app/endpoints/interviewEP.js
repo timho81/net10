@@ -8,12 +8,13 @@ var Interview = require('../models/Interview.js');
 var utils = require('../utils/utils.js');
 
 module.exports.create = function (req, res) {
-    Interview.create(req.body, function (err, post) {
+    Interview.create(req.body, function (err, interview) {
         if (err) {
             sendJSONresponse(res, 500, err);
         }
         utils.sendJSONresponse(res, 200, {
-            "status" : "created"
+            "status" : "created",
+            "interviewId": interview._id
         });
     });
     console.log('A new interview has been created');
