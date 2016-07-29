@@ -23,7 +23,7 @@ router.post('/passCandidate', offerEP.passCandidate);
 
 // Extend Offer - Send Offer Letter to candidate
 // router.post('/sendOfferLetter', offerEP.sendOfferLetter);
-router.post('/sendOfferLetter', sec.getAuth(), offerEP.sendOfferLetter);
+router.put('/extendOffer/:offerId', sec.getAuth(), offerEP.extendOffer);
 
 router.post('/document/:offerId', sec.getAuth(), uploader.uploadOfferDocument().single('document'),  offerEP.addOfferDocument);
 router.put('/document/:offerId', sec.getAuth(), uploader.uploadOfferDocument().single('document'),  offerEP.updateOfferDocument);

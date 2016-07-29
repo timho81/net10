@@ -6,6 +6,7 @@
 var mongoose = require('mongoose');
 var Offer = require('../models/Offer.js');
 var OfferPackage = require('../models/OfferPackage.js');
+var Candidate = require('../models/Candidate.js')
 var emails = require('../utils/emails.js');
 var utils = require('../utils/utils.js');
 
@@ -57,8 +58,7 @@ module.exports.passCandidate = function (req, res) {
 };
 
 // Offer Candidate use case - send Offer Letter with Offer Package, via email, to candidate to invite him to employment, sent out ONCE only
-module.exports.sendOfferLetter = function (req, res) {
-    console.log('Sending the offer letter and offer package to candidate...');
+module.exports.extendOffer = function (req, res) {
 
     Offer.findById(req.params.offerId, function (err, offer) {
         offer.state = 'EXTENDED';
@@ -73,18 +73,32 @@ module.exports.sendOfferLetter = function (req, res) {
                 console.log('The offer has been extended');
             }
         });
-    });
-    // Add offer packages as attachments
 
-    var subject = 'Offer Letter';
-    // Candidate 's email
-    var recipient = req.body.email;
-    var content = 'Dear Applicant,<br>' +
-        'We would like to inform that you have been selected for the position for which you apply. ' +
-        'You can find the Offer Package from attachments herein. Please contact us for your questions.<br><br>' +
-        'Best Regards,<br><br>' +
-        'Recruitment Team';
-    emails.doSend(res, recipient, subject, content);
+        OfferPackage.findOne().where('offerId').equals(offer._id).exec(function(err, offerPackage) {
+            offerPackage.sentOut = true;
+            offerPackage.save(function(err) {
+                if (err)
+                    utils.sendJSONresponse(res, 500, err);
+            });
+        });
+
+        Candidate.findById(offer.candidateId, function (err, candidate) {
+            // Add offer package documents as attachments
+
+            console.log('Sending the offer letter and offer package to candidate...');
+            var subject = 'Offer Letter';
+            // Candidate 's email
+            var recipient = candidate.email;
+            var content = 'Dear Applicant,<br>' +
+                'We would like to inform that you have been selected for the position for which you apply. ' +
+                'You can find the Offer Package from attachments herein. Please contact us for your questions.<br><br>' +
+                'Best Regards,<br><br>' +
+                'Recruitment Team';
+            emails.doSend(res, recipient, subject, content);
+
+        });
+    });
+
 };
 
 module.exports.addOfferDocument = function (req, res) {
