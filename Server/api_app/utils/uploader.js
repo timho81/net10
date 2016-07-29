@@ -32,5 +32,19 @@ module.exports = {
         var uploadDocument = multer({ storage: storage });
 
         return uploadDocument;
+    },
+    uploadOfferDocument: function (res, status, content) { // Upload documents for job package
+        var storage = multer.diskStorage({
+            destination: function (req, file, cb) {
+                cb(null, process.env.OFFER_DOCUMENTS_DIR)
+            },
+            filename: function (req, file, cb) {
+                cb(null, req.params.offerId + '-' + file.originalname);
+            }
+        });
+
+        var offerDocument = multer({ storage: storage });
+
+        return offerDocument;
     }
 };

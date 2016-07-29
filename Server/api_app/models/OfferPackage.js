@@ -9,9 +9,10 @@ var uuid = require('node-uuid');
 
 var OfferPackageSchema = new mongoose.Schema({
     _id: { type: String, default: uuid.v4},
-    candidateId: {type: String, required: true},
+    offerId: {type: String, required: true},
     sentOut: {type: Boolean, default: false}, // sent once to a target candidate
-    benefitsPackage: {type: String, required: true}
+    documentName: {type: String},
+    documentType: {type: String}
 });
 
 module.exports = mongoose.model('OfferPackage', OfferPackageSchema);
