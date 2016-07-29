@@ -26,8 +26,7 @@ module.exports.create = function (req, res) {
 
     JobReq.create(req.body, function (err, post) {
         if (err) {
-            utils.sendJSONresponse(res, 404, err);
-            return next(err);
+            utils.sendJSONresponse(res, 500, err);
         }
         utils.sendJSONresponse(res, 200, {
             "status" : "created"
@@ -51,7 +50,7 @@ module.exports.update = function (req, res) {
 
     JobReq.findByIdAndUpdate(req.params.id, req.body, function (err, jobReq) {
         if (err)
-            return next(err);
+            utils.sendJSONresponse(res, 500, err);
 
         utils.sendJSONresponse(res, 200,  {
             "status": "updated"
@@ -72,8 +71,7 @@ module.exports.delete = function (req, res) {
 
     JobReq.findByIdAndRemove(req.params.id, req.body, function (err, post) {
         if (err) {
-            sendJSONresponse(res, 404, err);
-            return next(err);
+            sendJSONresponse(res, 500, err);
         }
         utils.sendJSONresponse(res, 200, {
             "status" : "deleted"
@@ -86,7 +84,8 @@ module.exports.delete = function (req, res) {
 module.exports.findById = function (req, res) {
 
     JobReq.findById(req.params.id, function (err, jobReq) {
-        if (err) return next(err);
+        if (err)
+            sendJSONresponse(res, 500, err);
         res.json(jobReq);
     });
 
@@ -193,8 +192,7 @@ module.exports.assignCandidateToReq = function (req, res) {
 module.exports.addDocumentToJobPackage = function (req, res) {
     JobPackage.create(req.body, function (err, post) {
         if (err) {
-            utils.sendJSONresponse(res, 404, err);
-            // return next(err);
+            utils.sendJSONresponse(res, 500, err);
         }
         utils.sendJSONresponse(res, 200, {
             "status" : "created"
@@ -206,7 +204,7 @@ module.exports.addDocumentToJobPackage = function (req, res) {
 module.exports.updateDocumentToJobPackage = function (req, res) {
     JobPackage.findByIdAndUpdate(req.params.id, req.body, function (err, jobPackage) {
         if (err)
-            return next(err);
+            utils.sendJSONresponse(res, 500, err);
 
         utils.sendJSONresponse(res, 200,  {
             "status": "updated"
@@ -219,8 +217,7 @@ module.exports.updateDocumentToJobPackage = function (req, res) {
 module.exports.deleteDocumentFromJobPackage = function (req, res) {
     JobPackage.findByIdAndRemove(req.params.id, req.body, function (err, post) {
         if (err) {
-            utils.sendJSONresponse(res, 404, err);
-            return next(err);
+            utils.sendJSONresponse(res, 500, err);
         }
         utils.sendJSONresponse(res, 200, {
             "status" : "deleted"
@@ -238,7 +235,8 @@ module.exports.deleteDocumentFromJobPackage = function (req, res) {
 /////////////////////////////////////////////////////////////
 module.exports.viewJobPackage = function (req, res) {
     JobPackage.findById(req.params.id, function (err, jobPackage) {
-        if (err) return next(err);
+        if (err)
+            sendJSONresponse(res, 404, err);
         res.json(jobPackage);
     });
     console.log('A job package has been retrieved and returned');
