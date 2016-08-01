@@ -6,23 +6,26 @@ var jwt = require('jsonwebtoken');
 var uuid = require('node-uuid');
 
 var UserSchema = new mongoose.Schema({
-  _id: { type: String, default: uuid.v4}, // Randomly generated uuid
-  username: {type: String, unique: true, required: true},
-  hashedPassword: {type: String, unique: true, required: true}, // one-way hashed password
-  salt: String,
-  cell: {type: String, required: true},
-  workPhone: String,
-  homePhone: String,
-  address: {type: String, maxlength: 200},
+  _id: { type: String, default: uuid.v4}, // Randomly generated uuid, id must be prefixed with an underscore
+  firstName: {type: String, required: true},
+  lastName: String,
   email: {type: String, unique: true, required: true, match: [/.+\@.+\..+/, "Please fill an email-compliant format!"]
     // , validate: emailValidator
   },
-  firstName: {type: String, required: true},
-  lastName: String,
   authorities: [{type: String,
     enum: ['ROLE_ADMIN','ROLE_MANAGER','ROLE_RECRUITER','ROLE_CANDIDATE'],
     required: true
-  }] // Valid role inputs must fall into these enum values
+  }], // Valid role inputs must fall into these enum values
+
+  phone: String,
+  companyName: String,
+  website: String,
+
+  streetAddress: {type: String, maxlength: 200},
+  streetAddress2: {type: String, maxlength: 200},
+  zipCode: String,
+  hashedPassword: {type: String, unique: true, required: true}, // one-way hashed password
+  salt: String
 });
 UserSchema.methods.setPassword = function(password){
   this.salt = crypto.randomBytes(16).toString('hex');
@@ -39,9 +42,9 @@ UserSchema.methods.generateJwt = function() {
   // For the sake of security, JWT_SECRET is not published in a shared repository.
   // Instead, it is externalized into .env file residing under app root dir, local machine
   return jwt.sign({
-    _id: this._id,
+    id: this._id,
     email: this.email,
-    name: this.username,
+    // name: this.username,
     authorities: this.authorities, // for ACL
     exp: parseInt(expiry.getTime() / 1000),
   }, process.env.JWT_SECRET);

@@ -15,6 +15,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var mongodb = require('./api_app/configs/mongodb');
 // Need to go before models
 var passport = require('passport');
 
@@ -41,14 +42,7 @@ require('./api_app/configs/passport');
 var app = express();
 
 // Connect ExpressJS to MongoDB
-var mongoose = require('mongoose');
-mongoose.connect(process.env.DB_CONNECTION_URI, function(err, database) {
-  if(err) {
-    console.log('connection error', err);
-  } else {
-    console.log('Db connected');
-  }
-});
+mongodb.makeConnection();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -61,6 +55,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'web_app')));
 
 // Must go after static routes and before API routes
 app.use(passport.initialize());

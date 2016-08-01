@@ -11,10 +11,11 @@ var User = require('../models/User.js');
 
 // Configure passport
 passport.use(new LocalStrategy({
-        usernameField: 'username'
+        usernameField: 'email'
     },
-    function(username, password, done) {
-        User.findOne({ username: username }, function (err, user) {
+    function(email, password, done) {
+
+        User.findOne({ email: email.toLowerCase() }, function (err, user) {
             if (err) {
                 return done(err);
             }

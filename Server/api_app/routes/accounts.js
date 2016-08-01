@@ -10,17 +10,12 @@ var accountEP = require('../endpoints/accountEP');
 
 
 // CRUD routes
-// POST /api/{version}/accounts/login
 router.post('/login', accountEP.login) // Account AuthenC
-    // POST /api/{version}/accounts
     .post('/', accountEP.create) // Account Registration
-    // PUT /api/{version}/accounts/changePassword/id
     .put('/changePassword/:id', sec.getAuth(), accountEP.changePassword) // Change password
-    // PUT /api/{version}/accounts/id
+    // .put('/:id', accountEP.update)
     .put('/:id', sec.getAuth(), accountEP.update)
-    // GET /api/{version}/accounts/id
     .get('/:id', sec.getAuth(), accountEP.findById)
-    // GET /api/{version}/accounts/findByUsername/username
-    .get('/findByUsername/:username', sec.getAuth(), accountEP.findByUsername); // Finder routes
+    .get('/findByEmail/:email', sec.getAuth(), accountEP.findByEmail); // Finder routes
 
 module.exports = router;

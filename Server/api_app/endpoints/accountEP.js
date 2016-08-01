@@ -11,7 +11,7 @@ var utils = require('../utils/utils.js');
 module.exports.login = function (req, res) {
     console.log('Authenticating an account...');
 
-    if(!req.body.username || !req.body.password) {
+    if(!req.body.email || !req.body.password) {
         utils.sendJSONresponse(res, 400, {
             "message": "All fields required"
         });
@@ -41,7 +41,7 @@ module.exports.login = function (req, res) {
 module.exports.create = function (req, res) {
     // Data validation
     console.log('Validating user entries...');
-    if(!req.body.username || !req.body.email || !req.body.password) {
+    if(!req.body.email || !req.body.password) {
         utils.sendJSONresponse(res, 400, {
         "message": "Required fields can not be left blank"
       });
@@ -53,8 +53,9 @@ module.exports.create = function (req, res) {
         return;
     }
 
+    // The checking logic prevents user creation with email duplication from occurring
     // When there are no matches find() returns []
-    User.find().and({$or : [{username:req.body.username}, {email: req.body.email}]})
+    User.find().and({email: req.body.email.toLowerCase()})
         .exec(function(err, users) {
         if (err) throw err;
 
@@ -65,17 +66,18 @@ module.exports.create = function (req, res) {
             console.log('Creating a new account...');
             var user = new User();
 
-            user.username = req.body.username;
-            user.setPassword(req.body.password);
-            user.cell = req.body.cell;
-            user.workPhone = req.body.workPhone;
-            user.homePhone = req.body.homePhone;
-
-            user.email = req.body.email;
             user.firstName = req.body.firstName;
             user.lastName = req.body.lastName;
-            user.address = req.body.address;
+            user.email = req.body.email.toLowerCase();
             user.authorities = req.body.authorities;
+            user.phone = req.body.phone;
+            user.companyName = req.body.companyName;
+            user.website = req.body.website;
+            user.streetAddress = req.body.streetAddress;
+            user.streetAddress2 = req.body.streetAddress2;
+            user.zipCode = req.body.zipCode;
+
+            user.setPassword(req.body.password);
 
             user.save(function(err) {
                 var token;
@@ -84,7 +86,7 @@ module.exports.create = function (req, res) {
                 } else {
                     token = user.generateJwt();
                     utils.sendJSONresponse(res, 200, {
-                        "userId" : user._id,
+                        "userId" : user.id,
                         "token" : token
                     });
                 }
@@ -107,29 +109,16 @@ module.exports.create = function (req, res) {
 module.exports.update = function (req, res) {
 
     console.log('Updating an account with id = ' + req.params.id);
-
-    // Find user by id
-    User.findById(req.params.id, function (err, user) {
-        user.email = req.body.email;
-        user.firstName = req.body.firstName;
-        user.lastName = req.body.lastName;
-        user.cell = req.body.cell;
-        user.workPhone = req.body.workPhone;
-        user.homePhone = req.body.homePhone;
-        user.address = req.body.address;
-        user.authorities = req.body.authorities;
-
-        user.save(function(err) {
-            if (err) {
-                utils.sendJSONresponse(res, 500, err);
-            } else {
-                console.log('The account has been updated');
-                utils.sendJSONresponse(res, 200, {
-                    "status" : "updated"
-                });
-            }
+    // Update all user fields except for password
+    User.findByIdAndUpdate(req.params.id, req.body, function (err, user) {
+        if (err) {
+            sendJSONresponse(res, 500, err);
+        }
+        utils.sendJSONresponse(res, 200, {
+            "status" : "updated"
         });
     });
+    console.log('This account has been updated');
 };
 
 // Change account 's password
@@ -171,21 +160,21 @@ module.exports.findById = function (req, res) {
 };
 
 // Find an account by username
-module.exports.findByUsername = function (req, res) {
-    var username = req.params.username;
-    User.findOne({ username: username }, function (err, user) {
+module.exports.findByEmail = function (req, res) {
+    var email = req.params.email.toLowerCase();
+    User.findOne({ email: email }, function (err, user) {
         if (err) {
             utils.sendJSONresponse(res, 500,  {
                 "error_message": "An internal server error occurred"
             });
         }
         if (!user) {
-            console.log('The account with username = ' + username + ' can not be found');
+            console.log('The account with email = ' + email + ' can not be found');
             utils.sendJSONresponse(res, 404,  {
                 "message": "Account not found"
             });
         } else {
-            console.log('The account with username = ' + username + ' has been found');
+            console.log('The account with email = ' + email + ' has been found');
             utils.sendJSONresponse(res, 200, user);
         }
 
