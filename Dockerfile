@@ -1,9 +1,9 @@
 #FROM node:4
 # The image we want to build from. Here we will use the latest LTS (long term support) version argon of node 
 # available from the Docker Hub:
-FROM node:argon
+#FROM node:argon
 
-#FROM gcr.io/google_appengine/nodejs
+FROM gcr.io/google_appengine/nodejs
 
 # Install npm 2.15.5
 
