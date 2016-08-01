@@ -24,6 +24,15 @@ router.delete('/:id', sec.getAuth(), candidateEP.delete);
 router.get('/:id', sec.getAuth(), candidateEP.findById);
 // router.get('/:id', candidateEP.findById);
 
+// Attach resumes
+// router.post('/addResume/:candidateId', candidateEP.addResume);
+// router.delete('/addResume/:candidateId', sec.getAuth(), candidateEP.addResume);
+// router.put('/updateResume/:candidateId', candidateEP.updateResume);
+// router.delete('/updateResume/:candidateId', sec.getAuth(), candidateEP.updateResume);
+// router.delete('/deleteResume/:candidateId', candidateEP.deleteResume);
+// router.delete('/deleteResume/:candidateId',sec.getAuth(), candidateEP.deleteResume);
+
+
 // Candidate Summary CRUDs for recruiters
 // POST /api/{version}/candidates/summary/profileId
 router.post('/summary/:candidateId', sec.getAuth(), candidateEP.addSummary);
