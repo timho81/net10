@@ -49,7 +49,7 @@ router.get('/summary/:candidateId', sec.getAuth(), candidateEP.findSummaryByCand
 
 
 // For managers
-router.get('/summaries/:all', sec.getAuth(), candidateEP.swipeCandidateSummaries);
+// router.get('/summaries/:all', sec.getAuth(), candidateEP.swipeCandidateSummaries);
 // router.get('/summaries/:all', candidateEP.swipeCandidateSummaries);
 // router.get('/', sec.getAuth(), candidateEP.viewCandidateResume);
 // router.get('/', candidateEP.viewCandidateResume);

@@ -10,6 +10,8 @@ var CandidateSchema = new mongoose.Schema({
     _id: { type: String, default: uuid.v4},
     firstName: {type: String, required: true},
     lastName: String,
+    city: String,
+    state: String,
     email: {type: String, unique: true, required: true,
         match: [/.+\@.+\..+/, "Please fill an email-compliant format!"]},
     phone: {type: String, required: true},
@@ -23,7 +25,8 @@ var CandidateSchema = new mongoose.Schema({
     desiredComp: String,
     desiredBonus: String,
     resume: String,
-    jobIds: [String], // positions for which the candidate applied
+    jobIds: [String], // positions/jobreqs for which the candidate applied
+    createdBy: {type: String, required: true}, // userId of the creator who creates this candidate
     rating: Number,
     passedOn: {type: Boolean, default: false}
 });
