@@ -52,6 +52,20 @@ module.exports.findById = function(req, res, next) {
     });
 };
 
+module.exports.findCandidatesByRecruiter = function (req, res) {
+    console.log('Fetching candidates created by a recruiter ...');
+
+    Candidate.find().where('createdBy').equals(req.params.recruiterId).exec(function(err, candidates) {
+        if (candidates.length > 0)
+            res.jsonp(candidates);
+        else {
+            utils.sendJSONresponse(res, 404, {
+                "status" : "empty"
+            });
+        }
+    });
+};
+
 // Impl of Candidate Summary CRUDs
 module.exports.addSummary = function (req, res) {
     // Find profile by id

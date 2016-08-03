@@ -24,6 +24,11 @@ router.delete('/:id', sec.getAuth(), candidateEP.delete);
 router.get('/:id', sec.getAuth(), candidateEP.findById);
 // router.get('/:id', candidateEP.findById);
 
+// This method helps trace candidates he/she has created
+// router.get('/findCandidatesByRecruiter/:recruiterId', candidateEP.findCandidatesByRecruiter);
+router.get('/findCandidatesByRecruiter/:recruiterId', sec.getAuth(), candidateEP.findCandidatesByRecruiter);
+
+
 // Attach resumes
 // router.post('/addResume/:candidateId', candidateEP.addResume);
 // router.delete('/addResume/:candidateId', sec.getAuth(), candidateEP.addResume);
