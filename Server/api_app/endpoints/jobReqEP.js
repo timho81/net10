@@ -15,7 +15,6 @@ var utils = require('../utils/utils.js');
 // Create a new req
 module.exports.create = function (req, res) {
 
-    // error
     if (!sec.isAuthorized(req, 'ROLE_MANAGER')) {
         console.log('You are unauthorized to create a new req');
         utils.sendJSONresponse(res, 403, {
@@ -93,6 +92,30 @@ module.exports.findById = function (req, res) {
     console.log('A job req has been found');
 };
 
+module.exports.addDescriptionToReq = function (req, res) {
+    JobReq.findById(req.params.id, function (err, jobReq) {
+        if (err) {
+            console.log('The job req can not be found');
+            sendJSONresponse(res, 404, err);
+        }
+
+        jobReq.description = req.body.description;
+
+        jobReq.save(function(err) {
+            if (err) {
+                console.log('Saving the job req failed');
+                utils.sendJSONresponse(res, 500, err);
+            } else {
+                console.log('Description has been added to the job req');
+                utils.sendJSONresponse(res, 200, {
+                    "status" : "added"
+                });
+            }
+        });
+    });
+};
+
+
 // Find applicants/candidates by a job req for which candidates applied
 module.exports.findCandidatesByJobReq = function (req, res) {
     console.log('Fetching candidates by job req...');
@@ -127,7 +150,6 @@ module.exports.findJobReqsByManager = function (req, res) {
         }
     });
 };
-
 // Operations made by recruiters
 // Filter Job Reqs by name/description/requirements
 /////////////////////////////////////////////////////////////

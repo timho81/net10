@@ -20,6 +20,9 @@ router.delete('/:id', sec.getAuth(), jobReqEP.delete);
 router.get('/:id', sec.getAuth(), jobReqEP.findById);
 // router.get('/:id', jobReqEP.findById);
 
+// Add job req description separately
+router.put('/addDescriptionToReq/:id', sec.getAuth(), jobReqEP.addDescriptionToReq);
+
 // Routes to operations made by recruiters
 // Search for requisitions by criteria (job name/description/requirements)
 router.get('/searchForReqs/:name/:description/:requirements', sec.getAuth(), jobReqEP.searchForReqs);

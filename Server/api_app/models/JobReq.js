@@ -8,10 +8,17 @@ var uuid = require('node-uuid');
 
 var JobReqSchema = new mongoose.Schema({
     _id: { type: String, default: uuid.v4},
-    name: {type: String, required: true}, // job name
-    description: {type: String, required: true}, // job description
-    responsibilities: {type: [String], required: true},   // ones a candidate will take once being admitted
-    requirements: {type: [String], required: true}, // ones a candidate needs to meet to apply for the position
+    title: {type: String, required: true}, // Position name
+    description: String, // job description, added separately
+    city: {type: String, required: true},
+    state: {type: String, required: true},
+    base: {type: String, required: true},
+    bonus: String,
+    experience: {type: String, required: true},
+    skills: {type: String, required: true}, // ones a candidate needs to meet to apply for the position
+    niceToHave: String, // preferable skills
+    industry: String,
+    degree: String,
     createdBy: {type: String, required: true}, // id of user/manager who created this job req
     candidateIds: [String]
 });
