@@ -52,6 +52,15 @@ module.exports.findById = function(req, res, next) {
     });
 };
 
+// Resume attachments
+module.exports.addResume = function(req, res, next) {
+
+
+    console.log('Resume has been added to this candidate');
+};
+
+
+
 module.exports.findCandidatesByRecruiter = function (req, res) {
     console.log('Fetching candidates created by a recruiter ...');
 

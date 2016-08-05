@@ -6,6 +6,8 @@ var express = require('express');
 var router = express.Router();
 var sec = require('../security/security.js');
 
+var uploader = require('../utils/uploader.js');
+
 // Include endpoint files
 var candidateEP = require('../endpoints/candidateEP');
 
@@ -29,8 +31,11 @@ router.get('/:id', sec.getAuth(), candidateEP.findById);
 router.get('/findCandidatesByRecruiter/:recruiterId', sec.getAuth(), candidateEP.findCandidatesByRecruiter);
 
 
+
+// upload files onto GCP and save them there, for later usage, all file-related operations go through backend
+
 // Attach resumes
-// router.post('/addResume/:candidateId', candidateEP.addResume);
+router.post('/addResume/:candidateId', uploader.gcsFileUploadMulter.single('document'), uploader.uploadFileToGCS, candidateEP.addResume);
 // router.delete('/addResume/:candidateId', sec.getAuth(), candidateEP.addResume);
 // router.put('/updateResume/:candidateId', candidateEP.updateResume);
 // router.delete('/updateResume/:candidateId', sec.getAuth(), candidateEP.updateResume);
