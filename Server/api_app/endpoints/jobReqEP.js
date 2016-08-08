@@ -155,22 +155,25 @@ module.exports.findJobReqsByManager = function (req, res) {
 /////////////////////////////////////////////////////////////
 
 module.exports.searchForReqs = function (req, res) {
-    var name = req.params.name;
-    var description = req.params.description;
-    var requirements = req.params.requirements;
+    var keywords = req.params.keywords;
+    console.log('Searching job reqs with keywords = ' + keywords);
 
-    JobReq.find({name:{ $regex : name }, description:{ $regex : description },
-        requirements:{ $regex : requirements }}, function(err, results){
+    // equivalent to 'Like' clause in SQL, i stands for case insensitivity
+    var regExp = new RegExp(keywords, 'i');
 
-        if (results.length > 0)
-            res.jsonp(results);
-        else {
-            utils.sendJSONresponse(res, 404, {
-                "status" : "empty"
-            });
-        }
-    });
+    JobReq.find( { $or:[ {'city':{ $regex: regExp}}, {'state':{ $regex: regExp }},
+            , {'title':{ $regex: regExp }} , {'description':{ $regex: regExp }}
+            , {'experience':{ $regex: regExp }}, {'skills':{ $regex: regExp }}]},
 
+        function(err,results){
+                    if (results.length > 0)
+                        res.jsonp(results);
+                    else {
+                        utils.sendJSONresponse(res, 404, {
+                            "status" : "empty"
+                        });
+                    }
+        });
 };
 
 module.exports.assignCandidateToReq = function (req, res) {
