@@ -7,6 +7,11 @@ var Candidate = require('../models/Candidate.js')
 var Profile = require('../models/Profile.js');
 var utils = require('../utils/utils.js');
 
+// var config = require('../../config');
+
+// var uploader = require('../utils/uploader.js');
+// var fileHander = require('../utils/fileHander.js');
+
 // Impl of Candidate CRUDs
 module.exports.create = function (req, res) {
     Candidate.create(req.body, function (err, candidate) {
@@ -52,11 +57,48 @@ module.exports.findById = function(req, res, next) {
     });
 };
 
+// Filter candidates by firstName, city, state, jobTitle, coreCompetency, summary
+module.exports.searchForCandidates = function (req, res) {
+    var keywords = req.params.keywords;
+    console.log('Searching candidates with keywords = ' + keywords);
+
+    // equivalent to 'Like' clause in SQL, i stands for case insensitivity
+    var regExp = new RegExp(keywords, 'i');
+
+    Candidate.find( { $or:[ {'firstName':{ $regex: regExp}}, {'city':{ $regex: regExp}},
+            {'state':{ $regex: regExp}} , {'jobTitle':{ $regex: regExp}},
+            {'coreCompetency':{ $regex: regExp}} , {'summary':{ $regex: regExp}}]},
+
+        function(err,results){
+            if (results != null && results.length > 0)
+                res.jsonp(results);
+            else {
+                utils.sendJSONresponse(res, 404, {
+                    "status" : "empty"
+                });
+            }
+        });
+};
+
+
+
 // Resume attachments
 module.exports.addResume = function(req, res, next) {
-
-
-    console.log('Resume has been added to this candidate');
+    // Find candidate by id
+    Candidate.findById(req.params.candidateId, function (err, candidate) {
+        candidate.resume = req.file.originalname;
+        console.log('3');
+        candidate.save(function(err) {
+            if (err) {
+                utils.sendJSONresponse(res, 500, err);
+            } else {
+                console.log('A resume has been added to this candidate');
+                utils.sendJSONresponse(res, 200, {
+                    "status" : "added"
+                });
+            }
+        });
+    });
 };
 
 
@@ -162,10 +204,11 @@ module.exports.findSummaryByCandidateId = function (req, res) {
 //
 // };
 
-module.exports.viewCandidateResume = function (req, res) {
-
-
-};
+// module.exports.viewResume = function (req, res) {
+//     Candidate.findById(req.params.candidateId, function (err, candidate) {
+//         fileHander.downloadFileFromGCS(req, res, candidate.resume);
+//     });
+// };
 
 // Managers decide if they are interested in the candidate a not
 // once this is set to true, the candidate can not apply for this position for the second time

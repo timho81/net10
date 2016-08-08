@@ -6,7 +6,7 @@ var express = require('express');
 var router = express.Router();
 var sec = require('../security/security.js');
 
-var uploader = require('../utils/uploader.js');
+// var fileHander = require('../utils/fileHander.js');
 
 // Include endpoint files
 var candidateEP = require('../endpoints/candidateEP');
@@ -26,6 +26,9 @@ router.delete('/:id', sec.getAuth(), candidateEP.delete);
 router.get('/:id', sec.getAuth(), candidateEP.findById);
 // router.get('/:id', candidateEP.findById);
 
+// router.get('/searchForCandidates/:keywords', candidateEP.searchForCandidates);
+router.get('/searchForCandidates/:keywords', sec.getAuth(), candidateEP.searchForCandidates);
+
 // This method helps trace candidates he/she has created
 // router.get('/findCandidatesByRecruiter/:recruiterId', candidateEP.findCandidatesByRecruiter);
 router.get('/findCandidatesByRecruiter/:recruiterId', sec.getAuth(), candidateEP.findCandidatesByRecruiter);
@@ -35,7 +38,8 @@ router.get('/findCandidatesByRecruiter/:recruiterId', sec.getAuth(), candidateEP
 // upload files onto GCP and save them there, for later usage, all file-related operations go through backend
 
 // Attach resumes
-router.post('/addResume/:candidateId', uploader.gcsFileUploadMulter.single('document'), uploader.uploadFileToGCS, candidateEP.addResume);
+// router.post('/addResume/:candidateId', fileHander.gcsFileUploadMulter.single('document'), fileHander.uploadFileToGCS, candidateEP.addResume);
+
 // router.delete('/addResume/:candidateId', sec.getAuth(), candidateEP.addResume);
 // router.put('/updateResume/:candidateId', candidateEP.updateResume);
 // router.delete('/updateResume/:candidateId', sec.getAuth(), candidateEP.updateResume);
@@ -61,8 +65,10 @@ router.get('/summary/:candidateId', sec.getAuth(), candidateEP.findSummaryByCand
 // For managers
 // router.get('/summaries/:all', sec.getAuth(), candidateEP.swipeCandidateSummaries);
 // router.get('/summaries/:all', candidateEP.swipeCandidateSummaries);
-// router.get('/', sec.getAuth(), candidateEP.viewCandidateResume);
-// router.get('/', candidateEP.viewCandidateResume);
+// router.get('/viewResume/:candidateId', sec.getAuth(),candidateEP.viewResume);
+
+// router.get('/viewResume/:candidateId', candidateEP.viewResume);
+
 // router.post('/', sec.getAuth(), candidateEP.passCandidate);
 // router.post('/', candidateEP.passCandidate);
 // router.post('/', sec.getAuth(), candidateEP.offerCandidate);
