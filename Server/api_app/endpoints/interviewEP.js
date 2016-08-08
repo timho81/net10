@@ -100,7 +100,20 @@ module.exports.cancel = function (req, res) {
     console.log('The interview has been cancelled');
 };
 
+// Find interviews by a manager who created them
+module.exports.findInterviewsByManager = function (req, res) {
+    console.log('Fetching interviews by manager...');
 
+    Interview.find().where('inviter').equals(req.params.managerId).exec(function(err, interviews) {
+        if (interviews !=null && interviews.length > 0)
+            res.jsonp(interviews);
+        else {
+            utils.sendJSONresponse(res, 404, {
+                "status" : "empty"
+            });
+        }
+    });
+};
 
 
 

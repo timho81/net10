@@ -13,6 +13,7 @@ var InterviewSchema = new mongoose.Schema({
     accepted: {type: Boolean, default: false, required: true},
     rejected: {type: Boolean, default: false, required: true},
     jobReqId: {type: String, required: true},
+    inviter: {type: String, required: true}, // User ID of Manager who invited the candidate
     candidateId: {type: String, required: true}
 });
 
