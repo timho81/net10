@@ -25,7 +25,9 @@ router.put('/addDescriptionToReq/:id', sec.getAuth(), jobReqEP.addDescriptionToR
 
 // Routes to operations made by recruiters
 // Search for requisitions by criteria (job name/description/requirements)
-router.get('/searchForReqs/:name/:description/:requirements', sec.getAuth(), jobReqEP.searchForReqs);
+// router.get('/searchForReqs/:name/:description/:requirements', sec.getAuth(), jobReqEP.searchForReqs);
+// router.get('/searchForReqs/:keywords', sec.getAuth(), jobReqEP.searchForReqs);
+router.get('/searchForReqs/:keywords', sec.getAuth(), jobReqEP.searchForReqs);
 
 // router.put('/assignCandidateToReq/:jobId/:candidateId', jobReqEP.assignCandidateToReq);
 router.put('/assignCandidateToReq/:jobId/:candidateId', sec.getAuth(), jobReqEP.assignCandidateToReq);

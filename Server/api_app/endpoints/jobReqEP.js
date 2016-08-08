@@ -151,7 +151,7 @@ module.exports.findJobReqsByManager = function (req, res) {
     });
 };
 // Operations made by recruiters
-// Filter Job Reqs by name/description/requirements
+// Filter Job Reqs by city, state, title, description, experience, skills
 /////////////////////////////////////////////////////////////
 
 module.exports.searchForReqs = function (req, res) {
@@ -161,12 +161,12 @@ module.exports.searchForReqs = function (req, res) {
     // equivalent to 'Like' clause in SQL, i stands for case insensitivity
     var regExp = new RegExp(keywords, 'i');
 
-    JobReq.find( { $or:[ {'city':{ $regex: regExp}}, {'state':{ $regex: regExp }},
-            , {'title':{ $regex: regExp }} , {'description':{ $regex: regExp }}
-            , {'experience':{ $regex: regExp }}, {'skills':{ $regex: regExp }}]},
+    JobReq.find( { $or:[ {'city':{ $regex: regExp}}, {'state':{ $regex: regExp}},
+            {'title':{ $regex: regExp}} , {'description':{ $regex: regExp}}
+            , {'experience':{ $regex: regExp}}, {'skills':{ $regex: regExp}}]},
 
         function(err,results){
-                    if (results.length > 0)
+                    if (results != null && results.length > 0)
                         res.jsonp(results);
                     else {
                         utils.sendJSONresponse(res, 404, {
