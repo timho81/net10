@@ -20,7 +20,9 @@ var CandidateSchema = new mongoose.Schema({
     jobTitle: {type: String, required: true},
     currentEmployer: String, // (when and for how long)
     coreCompetency: {type: String, required: true},
-    summary: {type: String}, // authored by recruiters
+    summary1: {type: String}, // authored by recruiters
+    summary2: {type: String},
+    summary3: {type: String},
     experienceLevel: {type: String, required: true},
     currentComp: String,
     currentBonus: String,

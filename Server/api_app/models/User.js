@@ -12,10 +12,15 @@ var UserSchema = new mongoose.Schema({
   email: {type: String, unique: true, required: true, match: [/.+\@.+\..+/, "Please fill an email-compliant format!"]
     // , validate: emailValidator
   },
-  authorities: [{type: String,
+  // authorities: [{type: String,
+  //   enum: ['ROLE_ADMIN','ROLE_MANAGER','ROLE_RECRUITER','ROLE_CANDIDATE'],
+  //   required: true
+  // }], // Valid role inputs must fall into these enum values
+
+  authority: {type: String,
     enum: ['ROLE_ADMIN','ROLE_MANAGER','ROLE_RECRUITER','ROLE_CANDIDATE'],
     required: true
-  }], // Valid role inputs must fall into these enum values
+  }, // Valid role inputs must fall into these enum values
 
   phone: String,
   companyName: String,
