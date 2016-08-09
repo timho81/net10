@@ -13,7 +13,7 @@ module.exports = {
         return auth;
     },
     isAuthorized: function(req, roles) {
-        var authorities = req.payload.authorities;
+        var authorities = req.payload.authority;
         var authorized = false;
 
         if (roles.indexOf(',') == -1) {// one role only

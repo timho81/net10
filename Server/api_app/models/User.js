@@ -12,11 +12,6 @@ var UserSchema = new mongoose.Schema({
   email: {type: String, unique: true, required: true, match: [/.+\@.+\..+/, "Please fill an email-compliant format!"]
     // , validate: emailValidator
   },
-  // authorities: [{type: String,
-  //   enum: ['ROLE_ADMIN','ROLE_MANAGER','ROLE_RECRUITER','ROLE_CANDIDATE'],
-  //   required: true
-  // }], // Valid role inputs must fall into these enum values
-
   authority: {type: String,
     enum: ['ROLE_ADMIN','ROLE_MANAGER','ROLE_RECRUITER','ROLE_CANDIDATE'],
     required: true
@@ -50,7 +45,7 @@ UserSchema.methods.generateJwt = function() {
     id: this._id,
     email: this.email,
     // name: this.username,
-    authorities: this.authorities, // for ACL
+    authority: this.authority, // for ACL
     exp: parseInt(expiry.getTime() / 1000),
   }, process.env.JWT_SECRET);
 };
