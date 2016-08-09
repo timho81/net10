@@ -13,8 +13,8 @@ git pull
 echo "Building a new docker image..."
 sudo docker build -t 450851638300.dkr.ecr.us-east-1.amazonaws.com/net10-backend-image:$1 .
 
-echo "Enter credentials to log in to AWS, copy and paste the result from the terminal console:"
-aws ecr get-login
+#echo "Enter credentials to log in to AWS, copy and paste the result from the terminal console:"
+#aws ecr get-login
 
 echo "Creating repository on EC2 Container Registry (ECR)..."
 sudo aws ecr create-repository --repository-name net10-backend-image
