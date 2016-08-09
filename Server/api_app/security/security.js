@@ -12,22 +12,16 @@ module.exports = {
         });
         return auth;
     },
-    isAuthorized: function(req, roles) {
-        var authorities = req.payload.authority;
+    isAuthorized: function(req, requiredAuthorities) {
+        var grantedAuthority = req.payload.authority;
         var authorized = false;
 
-        if (roles.indexOf(',') == -1) {// one role only
-            for (var i = 0; i< authorities.length;i++)
-                if (roles == authorities[i]) {
-                    authorized = true;
-                    break;
-                }
-        } else {
-            for (var i = 0; i< authorities.length;i++)
-                if (roles.split(',').indexOf(authorities[i]) == 1) {
-                    authorized = true;
-                    break;
-                }
+        if (requiredAuthorities.indexOf(',') == -1) {// only one role required to access a certain realm
+            if (requiredAuthorities == grantedAuthority)
+                authorized = true;
+        } else { // either of multiple roles required to access a certain realm
+            if (requiredAuthorities.split(',').indexOf(grantedAuthority) == 1)
+                authorized = true;
         }
 
         return authorized;
