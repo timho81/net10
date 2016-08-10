@@ -7,8 +7,18 @@ var mongoose = require('mongoose');
 var User = require('../models/User.js');
 var utils = require('../utils/utils.js');
 
+
+module.exports = {
+    login: login,
+    create: create,
+    update: update,
+    changePassword: changePassword,
+    findById: findById,
+    findByEmail: findByEmail
+};
+
 // User AuthC
-module.exports.login = function (req, res) {
+function login(req, res) {
     console.log('Authenticating an account...');
 
     if(!req.body.email || !req.body.password) {
@@ -35,10 +45,10 @@ module.exports.login = function (req, res) {
         }
     })(req, res);
 
-};
+}
 
 // Set up a new account
-module.exports.create = function (req, res) {
+function create(req, res) {
     // Data validation
     console.log('Validating user entries...');
     if(!req.body.email || !req.body.password) {
@@ -102,11 +112,11 @@ module.exports.create = function (req, res) {
         }
 
     }); // end of User.find()
-}; // end of method
+} // end of method
 
 // Modify an existing account, all fields are modifiable except for username (non-editable once created),
 // password (belongs to other use cases, change/reset pwd)
-module.exports.update = function (req, res) {
+function update(req, res) {
 
     console.log('Updating an account with id = ' + req.params.id);
     // Update all user fields except for password
@@ -119,10 +129,10 @@ module.exports.update = function (req, res) {
         });
     });
     console.log('This account has been updated');
-};
+}
 
 // Change account 's password
-module.exports.changePassword = function (req, res) {
+function changePassword(req, res) {
 
     console.log('Changing password for the account with id = ' + req.params.id);
 
@@ -141,7 +151,7 @@ module.exports.changePassword = function (req, res) {
             }
         });
     });
-};
+}
 
 
 // Finder methods
@@ -149,7 +159,7 @@ module.exports.changePassword = function (req, res) {
 
 
 // Find an account by id
-module.exports.findById = function (req, res) {
+function findById(req, res) {
 
     User.findById(req.params.id, function (err, post) {
         if (err) return next(err);
@@ -157,10 +167,10 @@ module.exports.findById = function (req, res) {
     });
 
     console.log('An account has been found');
-};
+}
 
 // Find an account by username
-module.exports.findByEmail = function (req, res) {
+function findByEmail(req, res) {
     var email = req.params.email.toLowerCase();
     User.findOne({ email: email }, function (err, user) {
         if (err) {
@@ -179,6 +189,6 @@ module.exports.findByEmail = function (req, res) {
         }
 
     });
-};
+}
 
 

@@ -12,8 +12,24 @@ var Candidate = require('../models/Candidate.js');
 var sec = require('../security/security.js');
 var utils = require('../utils/utils.js');
 
+module.exports = {
+    create: create,
+    update: update,
+    delete: deleteReq,
+    findById: findById,
+    addDescriptionToReq: addDescriptionToReq,
+    findCandidatesByJobReq: findCandidatesByJobReq,
+    findJobReqsByManager: findJobReqsByManager,
+    searchForReqs: searchForReqs,
+    assignCandidateToReq: assignCandidateToReq,
+    addDocumentToJobPackage: addDocumentToJobPackage,
+    updateDocumentToJobPackage: updateDocumentToJobPackage,
+    deleteDocumentFromJobPackage: deleteDocumentFromJobPackage,
+    viewJobPackage: viewJobPackage
+};
+
 // Create a new req
-module.exports.create = function (req, res) {
+function create(req, res) {
 
     if (!sec.isAuthorized(req, 'ROLE_MANAGER')) {
         console.log('You are unauthorized to create a new req');
@@ -33,11 +49,11 @@ module.exports.create = function (req, res) {
         });
     });
     console.log('A new job req has been created');
-};
+}
 
 
 // Update an existing jobReq
-module.exports.update = function (req, res) {
+function update(req, res) {
     if (!sec.isAuthorized(req, 'ROLE_MANAGER')) {
         console.log('You are unauthorized to update this req');
         utils.sendJSONresponse(res, 403, {
@@ -58,9 +74,9 @@ module.exports.update = function (req, res) {
     });
 
     console.log('The job req has been modified');
-};
+}
 
-module.exports.delete = function (req, res) {
+function deleteReq(req, res) {
     if (!sec.isAuthorized(req, 'ROLE_MANAGER')) {
         console.log('You are unauthorized to delete this req');
         utils.sendJSONresponse(res, 403, {
@@ -77,11 +93,10 @@ module.exports.delete = function (req, res) {
             "status" : "deleted"
         });
     });
-
-};
+}
 
 // Find a job req by id
-module.exports.findById = function (req, res) {
+function findById(req, res) {
 
     JobReq.findById(req.params.id, function (err, jobReq) {
         if (err)
@@ -90,9 +105,9 @@ module.exports.findById = function (req, res) {
     });
 
     console.log('A job req has been found');
-};
+}
 
-module.exports.addDescriptionToReq = function (req, res) {
+function addDescriptionToReq(req, res) {
     JobReq.findById(req.params.id, function (err, jobReq) {
         if (err) {
             console.log('The job req can not be found');
@@ -113,11 +128,10 @@ module.exports.addDescriptionToReq = function (req, res) {
             }
         });
     });
-};
-
+}
 
 // Find applicants/candidates by a job req for which candidates applied
-module.exports.findCandidatesByJobReq = function (req, res) {
+function findCandidatesByJobReq(req, res) {
     console.log('Fetching candidates by job req...');
 
     JobReq.findById(req.params.id)
@@ -134,10 +148,10 @@ module.exports.findCandidatesByJobReq = function (req, res) {
                 });
             }
         );
-};
+}
 
 // Find job reqs by a manager who created them
-module.exports.findJobReqsByManager = function (req, res) {
+function findJobReqsByManager(req, res) {
     console.log('Fetching job reqs by manager...');
 
     JobReq.find().where('createdBy').equals(req.params.managerId).exec(function(err, jobReqs) {
@@ -149,12 +163,12 @@ module.exports.findJobReqsByManager = function (req, res) {
             });
         }
     });
-};
+}
 // Operations made by recruiters
 // Filter Job Reqs by city, state, title, description, experience, skills
 /////////////////////////////////////////////////////////////
 
-module.exports.searchForReqs = function (req, res) {
+function searchForReqs(req, res) {
     var keywords = req.params.keywords;
     console.log('Searching job reqs with keywords = ' + keywords);
 
@@ -174,9 +188,9 @@ module.exports.searchForReqs = function (req, res) {
                         });
                     }
         });
-};
+}
 
-module.exports.assignCandidateToReq = function (req, res) {
+function assignCandidateToReq(req, res) {
     var jobId = req.params.jobId;
     var candidateId = req.params.candidateId;
 
@@ -211,11 +225,10 @@ module.exports.assignCandidateToReq = function (req, res) {
             }
         });
     });
-
-};
+}
 /////////////////////////////////////////////////////////////////
 
-module.exports.addDocumentToJobPackage = function (req, res) {
+function addDocumentToJobPackage(req, res) {
     JobPackage.create(req.body, function (err, post) {
         if (err) {
             utils.sendJSONresponse(res, 500, err);
@@ -225,9 +238,9 @@ module.exports.addDocumentToJobPackage = function (req, res) {
         });
     });
     console.log('A document has been added to this job req');
-};
+}
 
-module.exports.updateDocumentToJobPackage = function (req, res) {
+function updateDocumentToJobPackage(req, res) {
     JobPackage.findByIdAndUpdate(req.params.id, req.body, function (err, jobPackage) {
         if (err)
             utils.sendJSONresponse(res, 500, err);
@@ -236,11 +249,10 @@ module.exports.updateDocumentToJobPackage = function (req, res) {
             "status": "updated"
         });
     });
-
     console.log('A document has been updated to this job req');
-};
+}
 
-module.exports.deleteDocumentFromJobPackage = function (req, res) {
+function deleteDocumentFromJobPackage(req, res) {
     JobPackage.findByIdAndRemove(req.params.id, req.body, function (err, post) {
         if (err) {
             utils.sendJSONresponse(res, 500, err);
@@ -249,23 +261,20 @@ module.exports.deleteDocumentFromJobPackage = function (req, res) {
             "status" : "deleted"
         });
     });
-
     // Delete physical document file under server 's data dir
 
     console.log('The document has been deleted from this job req');
-};
-
-
+}
 
 // Operations made by candidates, view a job package for a corresponding job/req for which a candidate is applying
 /////////////////////////////////////////////////////////////
-module.exports.viewJobPackage = function (req, res) {
+function viewJobPackage(req, res) {
     JobPackage.findById(req.params.id, function (err, jobPackage) {
         if (err)
             sendJSONresponse(res, 404, err);
         res.json(jobPackage);
     });
     console.log('A job package has been retrieved and returned');
-};
+}
 ///////////////////////////////////////////////////////////////
 

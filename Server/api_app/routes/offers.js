@@ -6,7 +6,7 @@ var express = require('express');
 var router = express.Router();
 
 var sec = require('../security/security.js');
-var uploader = require('../utils/uploader.js');
+// var uploader = require('../utils/uploader.js');
 var offerEP = require('../endpoints/offerEP');
 
 // Walks manager through the offer creation process,
@@ -25,8 +25,8 @@ router.post('/passCandidate', offerEP.passCandidate);
 // router.post('/sendOfferLetter', offerEP.sendOfferLetter);
 router.put('/extendOffer/:offerId', sec.getAuth(), offerEP.extendOffer);
 
-router.post('/document/:offerId', sec.getAuth(), uploader.uploadOfferDocument().single('document'),  offerEP.addOfferDocument);
-router.put('/document/:offerId', sec.getAuth(), uploader.uploadOfferDocument().single('document'),  offerEP.updateOfferDocument);
+// router.post('/document/:offerId', sec.getAuth(), uploader.uploadOfferDocument().single('document'),  offerEP.addOfferDocument);
+// router.put('/document/:offerId', sec.getAuth(), uploader.uploadOfferDocument().single('document'),  offerEP.updateOfferDocument);
 router.delete('/document/:offerId', sec.getAuth(), offerEP.deleteOfferDocument);
 
 // Operations made by candidates

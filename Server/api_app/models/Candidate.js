@@ -29,6 +29,8 @@ var CandidateSchema = new mongoose.Schema({
     desiredComp: String,
     desiredBonus: String,
     resume: String,
+    interestedJobIds: [String], // Jobs that are of interest to the candidate
+    passedJobIds: [String], // Jobs that are of no interest to the candidate will be ignored by him/her
     jobIds: [String], // positions/jobreqs for which the candidate applied
     createdBy: {type: String, required: true}, // userId of the creator who creates this candidate
     rating: Number,

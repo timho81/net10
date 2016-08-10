@@ -2,11 +2,15 @@
  * Created by Tim Ho on 6/27/2016.
  */
 
-// Util method
+// Util methods
 module.exports = {
-    sendJSONresponse: function (res, status, content) {
-        res.status(status);
-        res.json(content);
-    }
+    sendJSONresponse: sendJSONresponse
 };
+
+function sendJSONresponse (res, status, content) {
+    res.status(status);
+    res.json(content);
+}
+
+
 

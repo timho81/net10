@@ -17,6 +17,7 @@ router.post('/', sec.getAuth(), interviewEP.create)       // Manager requests an
     .put('/reschedule/:id', sec.getAuth(), interviewEP.reschedule) // Update the scheduled time
     .put('/respond/:id', sec.getAuth(), interviewEP.respond)// accept/decline an interview by candidates
     .put('/:id', sec.getAuth(), interviewEP.cancel)
+    .get('/findInterviewsByCandidate/:candidateId', sec.getAuth(), interviewEP.findInterviewsByCandidate)
     .get('/findInterviewsByManager/:managerId', sec.getAuth(), interviewEP.findInterviewsByManager);
 ;
 

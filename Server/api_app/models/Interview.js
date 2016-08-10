@@ -8,10 +8,10 @@ var uuid = require('node-uuid');
 
 var InterviewSchema = new mongoose.Schema({
     _id: { type: String, default: uuid.v4},
-    appointmentTime: {type: Date, required: true},
-    time1: {type: Date, required: true},
-    time2: Date,
-    time3: Date,
+    time: {type: String, required: true},
+    time1: {type: String, required: true},
+    time2: String,
+    time3: String,
     cancelled: {type: Boolean, default: false, required: true},
     accepted: {type: Boolean, default: false, required: true},
     rejected: {type: Boolean, default: false, required: true},

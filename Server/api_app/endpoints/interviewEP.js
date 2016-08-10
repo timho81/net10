@@ -7,7 +7,16 @@ var mongoose = require('mongoose');
 var Interview = require('../models/Interview.js');
 var utils = require('../utils/utils.js');
 
-module.exports.create = function (req, res) {
+module.exports = {
+    create: create,
+    reschedule: reschedule,
+    respond: respond,
+    cancel: cancel,
+    findInterviewsByCandidate: findInterviewsByCandidate,
+    findInterviewsByManager: findInterviewsByManager
+};
+
+function create(req, res) {
     Interview.create(req.body, function (err, interview) {
         if (err) {
             sendJSONresponse(res, 500, err);
@@ -18,10 +27,9 @@ module.exports.create = function (req, res) {
         });
     });
     console.log('A new interview has been created');
-};
+}
 
-
-module.exports.reschedule = function (req, res) {
+function reschedule(req, res) {
     console.log('Rescheduling the interview with id = ' + req.params.id);
 
     // Find interview by id
@@ -41,10 +49,10 @@ module.exports.reschedule = function (req, res) {
     });
 
     console.log('The interview has been rescheduled');
-};
+}
 
 // Candidates respond to an interview invitation by accepting/rejecting an interview invitation
-module.exports.respond = function (req, res) {
+function respond(req, res) {
 
     // Find interview by id
     Interview.findById(req.params.id, function (err, interview) {
@@ -78,10 +86,10 @@ module.exports.respond = function (req, res) {
             });
         }
     });
-};
+}
 
 // Cancelled by Manager
-module.exports.cancel = function (req, res) {
+function cancel(req, res) {
     Interview.findById(req.params.id, function (err, interview) {
         interview.cancelled = true;
 
@@ -96,12 +104,27 @@ module.exports.cancel = function (req, res) {
             }
         });
     });
-
     console.log('The interview has been cancelled');
-};
+}
+
+// Find interviews joined by a candidate
+function findInterviewsByCandidate(req, res) {
+    console.log('Fetching interviews by candidate...');
+
+    Interview.find().where('candidateId').equals(req.params.candidateId).exec(function(err, interviews) {
+        if (interviews !=null && interviews.length > 0)
+            res.jsonp(interviews);
+        else {
+            console.log('No interviews were joined by this candidate');
+            utils.sendJSONresponse(res, 404, {
+                "status" : "empty"
+            });
+        }
+    });
+}
 
 // Find interviews by a manager who created them
-module.exports.findInterviewsByManager = function (req, res) {
+function findInterviewsByManager(req, res) {
     console.log('Fetching interviews by manager...');
 
     Interview.find().where('inviter').equals(req.params.managerId).exec(function(err, interviews) {
@@ -113,7 +136,7 @@ module.exports.findInterviewsByManager = function (req, res) {
             });
         }
     });
-};
+}
 
 
 

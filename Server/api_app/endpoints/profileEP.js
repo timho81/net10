@@ -9,8 +9,16 @@ var Profile = require('../models/Profile.js');
 var CompanyContact = require('../models/CompanyContact.js');
 var utils = require('../utils/utils.js');
 
+module.exports = {
+    create: create,
+    update: update,
+    findById: findById,
+    createContact: createContact,
+    updateContact: updateContact
+};
+
 // Create a new profile
-module.exports.create = function (req, res) {
+function create(req, res) {
 
     var profile = new Profile();
 
@@ -31,10 +39,10 @@ module.exports.create = function (req, res) {
         }
     });
     console.log('A new profile has been created');
-};
+}
 
 // Update an existing profile
-module.exports.update = function (req, res) {
+function update(req, res) {
     console.log('Updating a profile with id = ' + req.params.id);
 
     Profile.findByIdAndUpdate(req.params.id, req.body, function (err, profile) {
@@ -49,10 +57,10 @@ module.exports.update = function (req, res) {
     });
 
     console.log('The profile has been modified');
-};
+}
 
 // Find an profile by id
-module.exports.findById = function (req, res) {
+function findById(req, res) {
 
     Profile.findById(req.params.id, function (err, profile) {
         if (err) return next(err);
@@ -60,7 +68,7 @@ module.exports.findById = function (req, res) {
     });
 
     console.log('A profile has been found');
-};
+}
 
 
 // Update Settings
@@ -72,7 +80,7 @@ module.exports.findById = function (req, res) {
 
 // CRUDs operations on Company Contact - Hiring Manager
 // Create company contact
-module.exports.createContact = function (req, res) {
+function createContact(req, res) {
     var companyContact = new CompanyContact();
 
     companyContact.name = req.body.name;
@@ -93,10 +101,10 @@ module.exports.createContact = function (req, res) {
         }
     });
     console.log('A new company contact has been created');
-};
+}
 
 // Update an existing company contact
-module.exports.updateContact = function (req, res) {
+function updateContact(req, res) {
     console.log('Updating a company contact with id = ' + req.params.companyContactId);
 
     CompanyContact.findByIdAndUpdate(req.params.companyContactId, req.body, function (err, companyContact) {
@@ -109,6 +117,6 @@ module.exports.updateContact = function (req, res) {
     });
 
     console.log('The company contact has been updated');
-};
+}
 
 

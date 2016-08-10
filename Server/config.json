@@ -1,0 +1,31 @@
+{
+"DEPLOYMENT_MODE": "PROD",
+"API_VERSION": "/v1",
+"BACKEND_SERVER_PORT": "80",
+
+  "DEV_DB_SERVER_VENDOR": "mongodb",
+  "DEV_DB_SERVER_ADDRESS": "localhost",
+  "DEV_DB_SERVER_PORT": "",
+  "DEV_DB_SERVER_USER": "",
+  "DEV_DB_NAME": "net10",
+
+"PROD_DB_SERVER_VENDOR": "mongodb",
+"PROD_DB_SERVER_ADDRESS": "",
+"PROD_DB_SERVER_PORT": "",
+"PROD_DB_SERVER_USER": "",
+"PROD_DB_NAME": "net10",
+
+"GCLOUD_PROJECT_ID": "algebraic-hub-132823",
+"GCP_AUTHEN_KEY_FILE_NAME": "TEN-Prototype-bd71b9e8f1cd.json",
+"RESUMES_CLOUD_BUCKET": "net10_resumes",
+  "JOB_PACKAGES_DOCUMENTS_CLOUD_BUCKET": "net10_job_packages_documents",
+  "OFFER_PACKAGES_DOCUMENTS_CLOUD_BUCKET": "net10_offer_packages_documents",
+
+"RESUMES_DIR": "data/resumes",
+"JOB_PACKAGE_DOCUMENTS_DIR": "data/job_package_documents",
+"OFFER_DOCUMENTS_DIR": "data/offer_documents",
+
+"MAIL_SERVICE": "Gmail",
+"MAIL_USERNAME": "timho.soft@gmail.com",
+"MAIL_FROM": "timho.soft@gmail.com"
+}

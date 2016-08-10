@@ -10,7 +10,19 @@ var Candidate = require('../models/Candidate.js')
 var emails = require('../utils/emails.js');
 var utils = require('../utils/utils.js');
 
-module.exports.update = function (req, res) {
+module.exports = {
+    update: update,
+    createOfferPackage: createOfferPackage,
+    passCandidate: passCandidate,
+    extendOffer: extendOffer,
+    addOfferDocument: addOfferDocument,
+    updateOfferDocument: updateOfferDocument,
+    deleteOfferDocument: deleteOfferDocument,
+    rescindOffer: rescindOffer,
+    respondOffer: respondOffer
+};
+
+function update(req, res) {
     Offer.findByIdAndUpdate(req.params.offerId, req.body, function (err, offer) {
         if (err)
             sendJSONresponse(res, 500, err);
@@ -20,11 +32,10 @@ module.exports.update = function (req, res) {
         });
     });
     console.log('This offer has been updated');
-};
-
+}
 
 // Create a new offer package for a candidate
-module.exports.createOfferPackage = function (req, res) {
+function createOfferPackage(req, res) {
 
     Offer.create(req.body, function (err, offer) {
         if (err) {
@@ -46,19 +57,19 @@ module.exports.createOfferPackage = function (req, res) {
         });
     });
     console.log('A new offer has been created');
-};
+}
 
 // Pass Candidate
-module.exports.passCandidate = function (req, res) {
+function passCandidate(req, res) {
 
     console.log('Ignored the candidate');
 
     // Set Candidate.passedOn = true?
 
-};
+}
 
 // Offer Candidate use case - send Offer Letter with Offer Package, via email, to candidate to invite him to employment, sent out ONCE only
-module.exports.extendOffer = function (req, res) {
+function extendOffer(req, res) {
 
     Offer.findById(req.params.offerId, function (err, offer) {
         offer.state = 'EXTENDED';
@@ -98,10 +109,9 @@ module.exports.extendOffer = function (req, res) {
 
         });
     });
+}
 
-};
-
-module.exports.addOfferDocument = function (req, res) {
+function addOfferDocument(req, res) {
     OfferPackage.findOne().where('offerId').equals(req.params.offerId).exec(function(err, offerPackage) {
         offerPackage.documentName = req.body.documentName;
         offerPackage.documentType = req.body.documentType;
@@ -117,9 +127,9 @@ module.exports.addOfferDocument = function (req, res) {
         });
     });
     console.log('The document has been added to this offer');
-};
+}
 
-module.exports.updateOfferDocument = function (req, res) {
+function updateOfferDocument(req, res) {
     OfferPackage.findOne().where('offerId').equals(req.params.offerId).exec(function(err, offerPackage) {
         offerPackage.documentName = req.body.documentName;
         offerPackage.documentType = req.body.documentType;
@@ -135,9 +145,9 @@ module.exports.updateOfferDocument = function (req, res) {
         });
     });
     console.log('The new document has been updated to this offer');
-};
+}
 
-module.exports.deleteOfferDocument = function (req, res) {
+function deleteOfferDocument(req, res) {
     OfferPackage.findByIdAndRemove(req.params.id, req.body, function (err, post) {
         if (err) {
             utils.sendJSONresponse(res, 500, err);
@@ -146,14 +156,13 @@ module.exports.deleteOfferDocument = function (req, res) {
             "status" : "deleted"
         });
     });
-
     // Delete physical document file under server 's data dir
 
     console.log('This offer document has been deleted');
-};
+}
 
 // Operation made by managers
-module.exports.rescindOffer = function (req, res) {
+function rescindOffer(req, res) {
     Offer.findById(req.params.offerId, function (err, offer) {
         offer.state = 'RESCINDED';
 
@@ -168,11 +177,10 @@ module.exports.rescindOffer = function (req, res) {
             }
         });
     });
-
-};
+}
 
 // Operation made by candidates
-module.exports.respondOffer = function (req, res) {
+function respondOffer(req, res) {
 
     Offer.findById(req.params.offerId, function (err, offer) {
         offer.state = req.body.accepted ? 'ACCEPTED' : 'REJECTED';
@@ -188,4 +196,4 @@ module.exports.respondOffer = function (req, res) {
             }
         });
     });
-};
+}

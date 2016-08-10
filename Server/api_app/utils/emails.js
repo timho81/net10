@@ -3,21 +3,25 @@
  */
 
 var nodeMailer = require('nodemailer');
+var config = require('../../config');
 var utils = require('./utils.js');
 
 module.exports = {
-    doSend: function (res, recipient, subject, content) {
+    doSend: doSend
+};
+
+function doSend (res, recipient, subject, content) {
         // For gmail successful login, access for less secure apps must be turned on
         var transporter = nodeMailer.createTransport({
-            service: process.env.MAIL_SERVICE,
+            service: config.get('MAIL_SERVICE'),
             auth: {
-                user: process.env.MAIL_USERNAME, // Your email id
-                pass: process.env.MAIL_PASSWORD // Your password
+                user: config.get('MAIL_USERNAME'), // Your email id
+                pass: config.get('MAIL_PASSWORD') // Your password
             }
         });
 
         var mailOptions = {
-            from: process.env.MAIL_FROM, // sender address
+            from: config.get('MAIL_FROM'), // sender address
             to: recipient, // receivers
             subject: subject, // Subject line
             // text: 'content', // plaintext body
@@ -36,4 +40,4 @@ module.exports = {
             }
         });
     }
-};
+

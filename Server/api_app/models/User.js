@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var uuid = require('node-uuid');
+var config = require('../../config');
 
 var UserSchema = new mongoose.Schema({
   _id: { type: String, default: uuid.v4}, // Randomly generated uuid, id must be prefixed with an underscore
@@ -47,7 +48,7 @@ UserSchema.methods.generateJwt = function() {
     // name: this.username,
     authority: this.authority, // for ACL
     exp: parseInt(expiry.getTime() / 1000),
-  }, process.env.JWT_SECRET);
+  }, config.get('JWT_SECRET'));
 };
 
 module.exports = mongoose.model('User', UserSchema);

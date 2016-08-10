@@ -13,7 +13,26 @@ var utils = require('../utils/utils.js');
 // var fileHander = require('../utils/fileHander.js');
 
 // Impl of Candidate CRUDs
-module.exports.create = function (req, res) {
+module.exports = {
+    create: create,
+    update: update,
+    delete: deleteCandidate,
+    findById: findById,
+    searchForCandidates: searchForCandidates,
+    acknowledgeInterestInJob: acknowledgeInterestInJob,
+    addResume: addResume,
+    findCandidatesByRecruiter: findCandidatesByRecruiter,
+    addSummary: addSummary,
+    updateSummary: updateSummary,
+    deleteSummary: deleteSummary,
+    findSummaryByCandidateId: findSummaryByCandidateId,
+    passCandidate: passCandidate,
+    offerCandidate: offerCandidate
+};
+
+
+
+function create(req, res) {
     Candidate.create(req.body, function (err, candidate) {
         if (err) {
             sendJSONresponse(res, 404, err);
@@ -23,9 +42,9 @@ module.exports.create = function (req, res) {
             "candidateId": candidate._id
         });
     });
-};
+}
 
-module.exports.update = function (req, res) {
+function update(req, res) {
     Candidate.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
         if (err) {
             sendJSONresponse(res, 500, err);
@@ -34,9 +53,9 @@ module.exports.update = function (req, res) {
                     "status" : "updated"
         });
     });
-};
+}
 
-module.exports.delete = function (req, res) {
+function deleteCandidate(req, res) {
     Candidate.findByIdAndRemove(req.params.id, req.body, function (err, post) {
         if (err) {
             sendJSONresponse(res, 500, err);
@@ -46,19 +65,19 @@ module.exports.delete = function (req, res) {
         });
     });
 
-};
+}
 
-module.exports.findById = function(req, res, next) {
+function findById(req, res, next) {
     Candidate.findById(req.params.id, function (err, post) {
         if (err) {
             sendJSONresponse(res, 404, err);
         }
         res.json(post);
     });
-};
+}
 
 // Filter candidates by firstName, city, state, jobTitle, coreCompetency, summary
-module.exports.searchForCandidates = function (req, res) {
+function searchForCandidates(req, res) {
     var keywords = req.params.keywords;
     console.log('Searching candidates with keywords = ' + keywords);
 
@@ -78,16 +97,46 @@ module.exports.searchForCandidates = function (req, res) {
                 });
             }
         });
-};
+}
 
+function acknowledgeInterestInJob(req, res, next) {
+    console.log('Acknowledging interest in the job or not, if yes, disclose profile to the recruitment manager');
 
+    // A flag to ack if the candidate is interested in this job or not
+    var interested = req.params.interested;
+
+    Candidate.findById(req.params.candidateId, function (err, candidate) {
+       if (interested)
+           candidate.interestedJobIds.add(req.params.jobId);
+        else
+           candidate.passedJobIds.add(req.params.jobId);
+
+        candidate.save(function(err) {
+            if (err) {
+                utils.sendJSONresponse(res, 500, err);
+            } else {
+                if (interested) {
+                    console.log('This job is of interest to the candidate');
+                    utils.sendJSONresponse(res, 200, {
+                        "status" : "interested"
+                    });
+                } else {
+                    console.log('This job is of no interest to the candidate, then passed');
+                    utils.sendJSONresponse(res, 200, {
+                        "status" : "passed"
+                    });
+                }
+            }
+        });
+    });
+
+}
 
 // Resume attachments
-module.exports.addResume = function(req, res, next) {
+function addResume(req, res, next) {
     // Find candidate by id
     Candidate.findById(req.params.candidateId, function (err, candidate) {
         candidate.resume = req.file.originalname;
-        console.log('3');
         candidate.save(function(err) {
             if (err) {
                 utils.sendJSONresponse(res, 500, err);
@@ -99,11 +148,11 @@ module.exports.addResume = function(req, res, next) {
             }
         });
     });
-};
+}
 
 
 
-module.exports.findCandidatesByRecruiter = function (req, res) {
+function findCandidatesByRecruiter(req, res) {
     console.log('Fetching candidates created by a recruiter ...');
 
     Candidate.find().where('createdBy').equals(req.params.recruiterId).exec(function(err, candidates) {
@@ -115,10 +164,10 @@ module.exports.findCandidatesByRecruiter = function (req, res) {
             });
         }
     });
-};
+}
 
 // Impl of Candidate Summary CRUDs
-module.exports.addSummary = function (req, res) {
+function addSummary(req, res) {
     // Find profile by id
     Candidate.findById(req.params.candidateId, function (err, candidate) {
 
@@ -135,10 +184,9 @@ module.exports.addSummary = function (req, res) {
             }
         });
     });
+}
 
-};
-
-module.exports.updateSummary = function (req, res) {
+function updateSummary(req, res) {
     // Find Candidate Summary by id
     Candidate.findById(req.params.candidateId, function (err, candidate) {
 
@@ -155,9 +203,9 @@ module.exports.updateSummary = function (req, res) {
             }
         });
     });
-};
+}
 
-module.exports.deleteSummary = function (req, res) {
+function deleteSummary(req, res) {
     // Find profile by id
     Candidate.findById(req.params.candidateId, function (err, candidate) {
 
@@ -174,10 +222,9 @@ module.exports.deleteSummary = function (req, res) {
             }
         });
     });
+}
 
-};
-
-module.exports.findSummaryByCandidateId = function (req, res) {
+function findSummaryByCandidateId(req, res) {
     // Find candidate by id
     Candidate.findById(req.params.candidateId, function (err, post) {
         if (err)
@@ -187,7 +234,7 @@ module.exports.findSummaryByCandidateId = function (req, res) {
             "summary" : post.summary
         });
     });
-};
+}
 
 
 // Operations for managers
@@ -212,7 +259,7 @@ module.exports.findSummaryByCandidateId = function (req, res) {
 
 // Managers decide if they are interested in the candidate a not
 // once this is set to true, the candidate can not apply for this position for the second time
-module.exports.passCandidate = function (req, res) {
+function passCandidate(req, res) {
     // Find candidate by id
     Candidate.findById(req.params.id, function (err, candidate) {
         candidate.passedOn = true;
@@ -229,7 +276,7 @@ module.exports.passCandidate = function (req, res) {
             }
         });
     });
-};
+}
 
 // Depends how you want to implement it.  You need to track which offers went to
 // which candidates and know the state of the offer after it was extended.
@@ -240,7 +287,7 @@ module.exports.passCandidate = function (req, res) {
 // because there could be multiple openings
 // multiple openings per job req
 
-module.exports.offerCandidate = function (req, res) {
+function offerCandidate(req, res) {
     // Create associations between candidate and offer entities
 
-};
+}

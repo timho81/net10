@@ -10,12 +10,13 @@ dotEnv.config({path: '/Server/.env'});
 
 var express = require('express');
 var path = require('path');
+var config = require('./config');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var mongodb = require('./api_app/configs/mongodb');
+var database = require('./api_app/configs/database');
 // Need to go before models
 var passport = require('passport');
 
@@ -42,7 +43,7 @@ require('./api_app/configs/passport');
 var app = express();
 
 // Connect ExpressJS to MongoDB
-mongodb.makeConnection();
+database.makeDBConnection();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -65,13 +66,14 @@ app.use('/users', users);
 
 app.use('/index', indexRoute);
 
-app.use('/api' + process.env.API_VERSION + '/accounts' , accountApiRoutes);
-app.use('/api' + process.env.API_VERSION + '/profiles' , profileApiRoutes);
-app.use('/api' + process.env.API_VERSION + '/candidates' , candidateApiRoutes);
-app.use('/api' + process.env.API_VERSION + '/jobReqs' , jobReqRoutes);
-app.use('/api' + process.env.API_VERSION + '/interviews' , interviewRoutes);
-app.use('/api' + process.env.API_VERSION + '/offers' , offerRoutes);
-// app.use('/api' + process.env.API_VERSION + '/messages' , messageRoutes);
+var apiVersion = config.get('API_VERSION');
+app.use('/api' + apiVersion + '/accounts' , accountApiRoutes);
+app.use('/api' + apiVersion + '/profiles' , profileApiRoutes);
+app.use('/api' + apiVersion + '/candidates' , candidateApiRoutes);
+app.use('/api' + apiVersion + '/jobReqs' , jobReqRoutes);
+app.use('/api' + apiVersion + '/interviews' , interviewRoutes);
+app.use('/api' + apiVersion + '/offers' , offerRoutes);
+// app.use('/api' + apiVersion + '/messages' , messageRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
