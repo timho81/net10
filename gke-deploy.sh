@@ -2,8 +2,8 @@
 
 # To run this script file:
 # Move command prompt to the dir where this file resides
-# $ chmod +rx gcp-deploy.sh
-# $ ./gcp-deploy.sh {docker_image_tag}
+# $ chmod +rx gke-deploy.sh
+# $ ./gke-deploy.sh {docker_image_tag}
 
 echo "Start deploying backend app onto GCP..."
 
