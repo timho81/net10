@@ -107,9 +107,9 @@ function acknowledgeInterestInJob(req, res, next) {
 
     Candidate.findById(req.params.candidateId, function (err, candidate) {
        if (interested)
-           candidate.interestedJobIds.add(req.params.jobId);
+           candidate.interestedJobIds.push(req.params.jobId);
         else
-           candidate.passedJobIds.add(req.params.jobId);
+           candidate.passedJobIds.push(req.params.jobId);
 
         candidate.save(function(err) {
             if (err) {
