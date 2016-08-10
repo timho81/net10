@@ -31,7 +31,7 @@ router.get('/searchForCandidates/:keywords', sec.getAuth(), candidateEP.searchFo
 
 // This method helps trace candidates he/she has created
 // router.get('/findCandidatesByRecruiter/:recruiterId', candidateEP.findCandidatesByRecruiter);
-router.get('/findCandidatesByRecruiter/:recruited', sec.getAuth(), candidateEP.findCandidatesByRecruiter);
+router.get('/findCandidatesByRecruiter/:recruiterId', sec.getAuth(), candidateEP.findCandidatesByRecruiter);
 
 // Candidate acknowledges interest in or ignore a job, if interested, discloses his/her entire profile to the manager
 router.put('/acknowledgeInterestInJob/:candidateId/:jobId/:interested', candidateEP.acknowledgeInterestInJob);
