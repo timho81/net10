@@ -13,6 +13,7 @@ var candidateEP = require('../endpoints/candidateEP');
 
 // Candidate CRUDs for recruiters
 // POST /api/{version}/candidates
+// router.post('/', candidateEP.create);
 router.post('/', sec.getAuth(), candidateEP.create);
 // router.post('/', candidateEP.create);
 // PUT /api/{version}/candidates
@@ -34,8 +35,8 @@ router.get('/searchForCandidates/:keywords', sec.getAuth(), candidateEP.searchFo
 router.get('/findCandidatesByRecruiter/:recruiterId', sec.getAuth(), candidateEP.findCandidatesByRecruiter);
 
 // Candidate acknowledges interest in or ignore a job, if interested, discloses his/her entire profile to the manager
-router.put('/acknowledgeInterestInJob/:candidateId/:jobId/:interested', candidateEP.acknowledgeInterestInJob);
-// router.put('/acknowledgeInterestInJob', sec.getAuth(), candidateEP.acknowledgeInterestInJob);
+// router.put('/acknowledgeInterestInJob/:candidateId/:jobId/:managerId/:interested', candidateEP.acknowledgeInterestInJob);
+router.put('/acknowledgeInterestInJob/:candidateId/:jobId/:managerId/:interested', sec.getAuth(), candidateEP.acknowledgeInterestInJob);
 
 // upload files onto GCP and save them there, for later usage, all file-related operations go through backend
 

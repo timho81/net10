@@ -6,6 +6,20 @@
 var mongoose = require('mongoose');
 var uuid = require('node-uuid');
 
+// This subdoc embedded into Candidate entity embodies jobs acknowledged as interested or not by a candidate
+var InterestAckJobSchema = new mongoose.Schema({
+    _id: { type: String, default: uuid.v4},
+    jobId: {type: String, required: true},
+    managerId: {type: String, required: true},
+    interested: {type: Boolean, required: true, default: false}
+});
+
+var MatchedJobSchema = new mongoose.Schema({
+    _id: { type: String, default: uuid.v4},
+    matchedJobId: {type: String, required: true}, // jobId
+    managerId: {type: String, required: true} // userId
+});
+
 var CandidateSchema = new mongoose.Schema({
     _id: { type: String, default: uuid.v4},
     firstName: {type: String, required: true},
@@ -29,8 +43,8 @@ var CandidateSchema = new mongoose.Schema({
     desiredComp: String,
     desiredBonus: String,
     resume: String,
-    interestedJobIds: [String], // Jobs that are of interest to the candidate
-    passedJobIds: [String], // Jobs that are of no interest to the candidate will be ignored by him/her
+    interestAckJobs: [InterestAckJobSchema], // Jobs as an embedded subdocument that are of interest to the candidate
+    matchedJobs: [MatchedJobSchema],         // Jobs that are of no interest to the candidate will be ignored by him/her
     jobIds: [String], // positions/jobreqs for which the candidate applied
     createdBy: {type: String, required: true}, // userId of the creator who creates this candidate
     rating: Number,

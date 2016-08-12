@@ -3,7 +3,7 @@
  */
 
 var mongoose = require('mongoose');
-var Candidate = require('../models/Candidate.js')
+var Candidate = require('../models/Candidate.js');
 var Profile = require('../models/Profile.js');
 var utils = require('../utils/utils.js');
 
@@ -35,7 +35,7 @@ module.exports = {
 function create(req, res) {
     Candidate.create(req.body, function (err, candidate) {
         if (err) {
-            sendJSONresponse(res, 404, err);
+            utils.sendJSONresponse(res, 500, err);
         }
         utils.sendJSONresponse(res, 200, {
             "status" : "created",
@@ -102,20 +102,17 @@ function searchForCandidates(req, res) {
 function acknowledgeInterestInJob(req, res, next) {
     console.log('Acknowledging interest in the job or not, if yes, disclose profile to the recruitment manager');
 
-    // A flag to ack if the candidate is interested in this job or not
+    // The flag indicates that a candidate acknowledges if he/she is interested in this job or not
     var interested = req.params.interested;
 
     Candidate.findById(req.params.candidateId, function (err, candidate) {
-       if (interested)
-           candidate.interestedJobIds.push(req.params.jobId);
-        else
-           candidate.passedJobIds.push(req.params.jobId);
+        candidate.interestAckJobs.push({ jobId: req.params.jobId, managerId: req.params.managerId, interested: (interested=='true'?true:false)});
 
         candidate.save(function(err) {
             if (err) {
                 utils.sendJSONresponse(res, 500, err);
             } else {
-                if (interested) {
+                if (interested == 'true') {
                     console.log('This job is of interest to the candidate');
                     utils.sendJSONresponse(res, 200, {
                         "status" : "interested"
@@ -129,7 +126,6 @@ function acknowledgeInterestInJob(req, res, next) {
             }
         });
     });
-
 }
 
 // Resume attachments
