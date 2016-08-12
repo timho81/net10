@@ -38,6 +38,9 @@ router.get('/findCandidatesByRecruiter/:recruiterId', sec.getAuth(), candidateEP
 // router.put('/acknowledgeInterestInJob/:candidateId/:jobId/:managerId/:interested', candidateEP.acknowledgeInterestInJob);
 router.put('/acknowledgeInterestInJob/:candidateId/:jobId/:managerId/:interested', sec.getAuth(), candidateEP.acknowledgeInterestInJob);
 
+// router.put('/matchJobWithCandidate/:candidateId/:jobId/:managerId', candidateEP.matchJobWithCandidate);
+router.put('/matchJobWithCandidate/:candidateId/:jobId', sec.getAuth(), candidateEP.matchJobWithCandidate);
+
 // upload files onto GCP and save them there, for later usage, all file-related operations go through backend
 
 // Attach resumes

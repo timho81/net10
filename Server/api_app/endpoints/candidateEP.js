@@ -20,6 +20,7 @@ module.exports = {
     findById: findById,
     searchForCandidates: searchForCandidates,
     acknowledgeInterestInJob: acknowledgeInterestInJob,
+    matchJobWithCandidate: matchJobWithCandidate,
     addResume: addResume,
     findCandidatesByRecruiter: findCandidatesByRecruiter,
     addSummary: addSummary,
@@ -123,6 +124,25 @@ function acknowledgeInterestInJob(req, res, next) {
                         "status" : "passed"
                     });
                 }
+            }
+        });
+    });
+}
+
+function matchJobWithCandidate(req, res, next) {
+    console.log('Matching a job with this candidate...');
+
+    Candidate.findById(req.params.candidateId, function (err, candidate) {
+        candidate.matchedJobs.push({ matchedJobId: req.params.jobId, managerId: req.params.managerId});
+
+        candidate.save(function(err) {
+            if (err) {
+                utils.sendJSONresponse(res, 500, err);
+            } else {
+                console.log('A job has been matched to this candidate');
+                utils.sendJSONresponse(res, 200, {
+                    "status" : "interested"
+                });
             }
         });
     });
