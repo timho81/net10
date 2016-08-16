@@ -20,9 +20,6 @@ module.exports = {
     findInterviewsByManager: findInterviewsByManager
 };
 
-
-
-
 function create(req, res) {
     Interview.create(req.body, function (err, interview) {
         if (err) {
