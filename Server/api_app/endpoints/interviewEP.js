@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose');
 var Interview = require('../models/Interview.js');
+var Candidate = require('../models/Candidate.js');
 var utils = require('../utils/utils.js');
 
 module.exports = {
@@ -12,9 +13,15 @@ module.exports = {
     reschedule: reschedule,
     respond: respond,
     cancel: cancel,
+    acknowledgeInterestInJob: acknowledgeInterestInJob,
+    interestInCandidate: interestInCandidate,
+    changeState: changeState,
     findInterviewsByCandidate: findInterviewsByCandidate,
     findInterviewsByManager: findInterviewsByManager
 };
+
+
+
 
 function create(req, res) {
     Interview.create(req.body, function (err, interview) {
@@ -97,14 +104,64 @@ function cancel(req, res) {
             if (err) {
                 utils.sendJSONresponse(res, 500, err);
             } else {
-                console.log('The interview has been rescheduled');
+                console.log('The interview has been cancelled');
                 utils.sendJSONresponse(res, 200, {
-                    "status" : "rescheduled"
+                    "status" : "cancelled"
                 });
             }
         });
     });
-    console.log('The interview has been cancelled');
+}
+
+function acknowledgeInterestInJob(req, res, next) {
+    console.log('Acknowledging interest in the job or not, if yes, disclose profile to the recruitment manager');
+
+    // The flag indicates that a candidate acknowledges if he/she is interested in this job or not
+    var interested = req.params.interested;
+
+    Candidate.findById(req.params.candidateId, function (err, candidate) {
+        candidate.interestAckJobs.push({ jobId: req.params.jobId, managerId: req.params.managerId, interested: (interested=='true'?true:false)});
+
+        candidate.save(function(err) {
+            if (err) {
+                utils.sendJSONresponse(res, 500, err);
+            } else {
+                if (interested == 'true') {
+                    console.log('This job is of interest to the candidate');
+                    utils.sendJSONresponse(res, 200, {
+                        "status" : "interested"
+                    });
+                } else {
+                    console.log('This job is of no interest to the candidate, then passed');
+                    utils.sendJSONresponse(res, 200, {
+                        "status" : "passed"
+                    });
+                }
+            }
+        });
+    });
+}
+
+function interestInCandidate(req, res) {
+    // Send a notification email to candidate in whom the manager is interested
+
+}
+
+function changeState(req, res) {
+    Interview.findById(req.params.id, function (err, interview) {
+        interview.state = req.params.state;
+
+        interview.save(function(err) {
+            if (err) {
+                utils.sendJSONresponse(res, 500, err);
+            } else {
+                console.log('The interview state has been changed');
+                utils.sendJSONresponse(res, 200, {
+                    "status" : "changed"
+                });
+            }
+        });
+    });
 }
 
 // Find interviews joined by a candidate
