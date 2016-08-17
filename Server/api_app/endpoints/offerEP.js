@@ -19,7 +19,9 @@ module.exports = {
     updateOfferDocument: updateOfferDocument,
     deleteOfferDocument: deleteOfferDocument,
     rescindOffer: rescindOffer,
-    respondOffer: respondOffer
+    respondOffer: respondOffer,
+    findOffersByCandidate: findOffersByCandidate,
+    findOffersByManager: findOffersByManager
 };
 
 function update(req, res) {
@@ -195,5 +197,33 @@ function respondOffer(req, res) {
                 console.log('The offer has been responded');
             }
         });
+    });
+}
+
+function findOffersByCandidate(req, res) {
+    console.log('Fetching offers by a candidate...');
+
+    Offer.find().where('candidateId').equals(req.params.candidateId).exec(function(err, offers) {
+        if (offers.length > 0)
+            res.jsonp(offers);
+        else {
+            utils.sendJSONresponse(res, 404, {
+                "status" : "empty"
+            });
+        }
+    });
+}
+
+function findOffersByManager(req, res) {
+    console.log('Fetching offers by manager...');
+
+    Offer.find().where('offeredBy').equals(req.params.managerId).exec(function(err, offers) {
+        if (offers.length > 0)
+            res.jsonp(offers);
+        else {
+            utils.sendJSONresponse(res, 404, {
+                "status" : "empty"
+            });
+        }
     });
 }

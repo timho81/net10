@@ -33,4 +33,7 @@ router.delete('/document/:offerId', sec.getAuth(), offerEP.deleteOfferDocument);
 router.put('/rescindOffer/:offerId', sec.getAuth(), offerEP.rescindOffer);
 router.put('/respondOffer/:offerId', sec.getAuth(), offerEP.respondOffer);
 
+router.get('/findOffersByCandidate/:candidateId', sec.getAuth(), offerEP.findOffersByCandidate);
+router.get('/findOffersByManager/:managerId', sec.getAuth(), offerEP.findOffersByManager);
+
 module.exports = router;
