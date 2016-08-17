@@ -14,6 +14,7 @@ function doSend (res, recipient, subject, content) {
         // For gmail successful login, access for less secure apps must be turned on
         var transporter = nodeMailer.createTransport({
             service: config.get('MAIL_SERVICE'),
+            port: 465, // or 587
             auth: {
                 user: config.get('MAIL_USERNAME'), // Your email id
                 pass: config.get('MAIL_PASSWORD') // Your password
