@@ -22,11 +22,15 @@ var UserSchema = new mongoose.Schema({
   companyName: String,
   website: String,
 
+  rating: Number, // computed rating value for managers ONLY
+
   streetAddress: {type: String, maxlength: 200},
   streetAddress2: {type: String, maxlength: 200},
   zipCode: String,
   hashedPassword: {type: String, unique: true, required: true}, // one-way hashed password
-  salt: String
+  salt: String,
+  isCandidateAccount: {type: Boolean, default: false},
+  hasChangedRandomPwd: {type: Boolean, default: true} // Force newly created candidate account to change his randomly generated pwd on first login
 });
 UserSchema.methods.setPassword = function(password){
   this.salt = crypto.randomBytes(16).toString('hex');

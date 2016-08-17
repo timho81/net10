@@ -31,10 +31,19 @@ function login(req, res) {
     passport.authenticate('local', function(err, user, info){
         var token;
         if (err) {
-            utils.sendJSONresponse(res, 404, err);
+            utils.sendJSONresponse(res, 500, err);
             return;
         }
         if(user){
+            if(!user.hasChangedRandomPwd) {
+                console.log('You must change your randomly generated password on the first login.');
+                utils.sendJSONresponse(res, 400, {
+                    "message": "You must change your randomly generated password on the first login."
+                });
+                return;
+            }
+
+            
             token = user.generateJwt();
             utils.sendJSONresponse(res, 200, {
                 "userId" : user._id,
@@ -139,6 +148,7 @@ function changePassword(req, res) {
     // Find user by id
     User.findById(req.params.id, function (err, user) {
         user.setPassword(req.body.newPassword);
+        user.hasChangedRandomPwd = true;
 
         user.save(function(err) {
             if (err) {

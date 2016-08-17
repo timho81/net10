@@ -45,9 +45,12 @@ var CandidateSchema = new mongoose.Schema({
     resume: String,
     interestAckJobs: [InterestAckJobSchema], // Jobs as an embedded subdocument that are of interest to the candidate
     matchedJobs: [MatchedJobSchema],         // Jobs that are of no interest to the candidate will be ignored by him/her
+    excludedJobIds: [String], // a list of jobs in which this candidate is not interest, thus, he/she ignores them
+    userId: String,
     jobIds: [String], // positions/jobreqs for which the candidate applied
     createdBy: {type: String, required: true}, // userId of the creator who creates this candidate
-    rating: Number,
+    averageRating: Number, // a computed value
+    scores: [Number],
     passedOn: {type: Boolean, default: false}
 });
 

@@ -3,8 +3,12 @@
  */
 
 var mongoose = require('mongoose');
+var randomstring = require("randomstring");
+
+var User = require('../models/User.js');
 var Candidate = require('../models/Candidate.js');
 var Profile = require('../models/Profile.js');
+var emails = require('../utils/emails.js');
 var utils = require('../utils/utils.js');
 
 // var config = require('../../config');
@@ -19,7 +23,6 @@ module.exports = {
     delete: deleteCandidate,
     findById: findById,
     searchForCandidates: searchForCandidates,
-    acknowledgeInterestInJob: acknowledgeInterestInJob,
     matchJobWithCandidate: matchJobWithCandidate,
     addResume: addResume,
     findCandidatesByRecruiter: findCandidatesByRecruiter,
@@ -31,18 +34,68 @@ module.exports = {
     offerCandidate: offerCandidate
 };
 
-
-
+// Candidate created by a recruiter
 function create(req, res) {
+
+    var newlyCreatedCandidateId;
+    // Send account creation notification email to candidate with randomly generated pwd,
+    // require pwd change on the first login
+    var randomlyGeneratedPwd = randomstring.generate({
+        length: 16,
+        charset: 'alphanumeric'
+    });
+    console.log('randomlyGeneratedPwd = ' + randomlyGeneratedPwd);
+
     Candidate.create(req.body, function (err, candidate) {
         if (err) {
+            console.log("Error occurred while creating a new candidate");
             utils.sendJSONresponse(res, 500, err);
         }
-        utils.sendJSONresponse(res, 200, {
-            "status" : "created",
-            "candidateId": candidate._id
+        newlyCreatedCandidateId = candidate._id;
+
+        var user = new User();
+        user.firstName = req.body.firstName;
+        user.lastName = req.body.lastName;
+        user.email = req.body.email;
+        user.phone = req.body.phone;
+        user.isCandidateAccount = true;
+        user.hasChangedRandomPwd = false;
+        user.authority = 'ROLE_CANDIDATE';
+        user.setPassword(randomlyGeneratedPwd);
+
+        user.save(function(err) {
+            if (err) {
+                console.log("Error occurred while creating a new candidate account");
+                utils.sendJSONresponse(res, 500, err);
+            } else {
+                // Associate the newly created candidate with the candidate account
+                candidate.userId = user.id;
+
+                candidate.save(function(err) {
+                    if (err) {
+                        utils.sendJSONresponse(res, 500, err);
+                    } else {
+                        console.log('A new candidate and candidate account have been created and associated');
+                        utils.sendJSONresponse(res, 200, {
+                            "status" : "created",
+                            "candidateId": candidate._id
+                        });
+                    }
+                });
+                // Send account creation noti email to candidate with randamly generated pwd
+                console.log('Sending the offer letter and offer package to candidate...');
+                var subject = 'Account Creation';
+                // Candidate 's email
+                var recipient = req.body.email;
+                var content = 'Dear Applicant,<br><br>' +
+                    'We would like to inform that a new account has been created for you with password:' + randomlyGeneratedPwd + '<br>' +
+                    'It is required that you change the password on your first login.<br><br>' +
+                    'Best Regards,<br><br>' +
+                    'Recruitment Team';
+                emails.doSend(res, recipient, subject, content);
+            }
         });
-    });
+    })
 }
 
 function update(req, res) {
@@ -98,35 +151,6 @@ function searchForCandidates(req, res) {
                 });
             }
         });
-}
-
-function acknowledgeInterestInJob(req, res, next) {
-    console.log('Acknowledging interest in the job or not, if yes, disclose profile to the recruitment manager');
-
-    // The flag indicates that a candidate acknowledges if he/she is interested in this job or not
-    var interested = req.params.interested;
-
-    Candidate.findById(req.params.candidateId, function (err, candidate) {
-        candidate.interestAckJobs.push({ jobId: req.params.jobId, managerId: req.params.managerId, interested: (interested=='true'?true:false)});
-
-        candidate.save(function(err) {
-            if (err) {
-                utils.sendJSONresponse(res, 500, err);
-            } else {
-                if (interested == 'true') {
-                    console.log('This job is of interest to the candidate');
-                    utils.sendJSONresponse(res, 200, {
-                        "status" : "interested"
-                    });
-                } else {
-                    console.log('This job is of no interest to the candidate, then passed');
-                    utils.sendJSONresponse(res, 200, {
-                        "status" : "passed"
-                    });
-                }
-            }
-        });
-    });
 }
 
 function matchJobWithCandidate(req, res, next) {
