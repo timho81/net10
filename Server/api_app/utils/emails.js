@@ -30,12 +30,8 @@ function doSend (res, recipient, subject, content) {
 
         transporter.sendMail(mailOptions, function(error, info){
             if (error) {
-                utils.sendJSONresponse(res, 500, error);
                 console.log('An error occurred while sending email, message: ' + error);
             } else {
-                utils.sendJSONresponse(res, 200, {
-                    "status": "sent"
-                });
                 console.log('Email has been sent: ' + info.response);
             }
         });
