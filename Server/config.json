@@ -26,6 +26,6 @@
 "OFFER_DOCUMENTS_DIR": "data/offer_documents",
 
 "MAIL_SERVICE": "Gmail",
-"MAIL_USERNAME": "user1.imip@gmail.com",
-"MAIL_FROM": "user1.imip@gmail.com"
+"MAIL_USERNAME": "timho.soft@gmail.com",
+"MAIL_FROM": "timho.soft@gmail.com"
 }

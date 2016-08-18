@@ -12,14 +12,18 @@ module.exports = {
 
 function doSend (res, recipient, subject, content) {
         // For gmail successful login, access for less secure apps must be turned on
-        var transporter = nodeMailer.createTransport({
-            service: config.get('MAIL_SERVICE'),
-            port: 465, // or 587
-            auth: {
+    var transporter = nodemailer.createTransport("SMTP", {
+        service: config.get('MAIL_SERVICE'),
+        auth: {
+            XOAuth2: {
                 user: config.get('MAIL_USERNAME'), // Your email id
-                pass: config.get('MAIL_PASSWORD') // Your password
+                clientId: config.get('GMAIL_CLIENT_ID'),
+                clientSecret: config.get('GMAIL_CLIENT_SECRET'),
+                refreshToken: config.get('GMAIL_REFRESH_TOKEN'),
+                accessToken: config.get('GMAIL_ACCESS_TOKEN')
             }
-        });
+        }
+    });
 
         var mailOptions = {
             from: config.get('MAIL_FROM'), // sender address
