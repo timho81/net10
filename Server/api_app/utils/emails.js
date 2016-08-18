@@ -20,7 +20,6 @@ function doSend (res, recipient, subject, content) {
                 clientId: config.get('GMAIL_CLIENT_ID'),
                 clientSecret: config.get('GMAIL_CLIENT_SECRET'),
                 refreshToken: config.get('GMAIL_REFRESH_TOKEN')
-                // accessToken: config.get('GMAIL_ACCESS_TOKEN')
             }
         }
     });
