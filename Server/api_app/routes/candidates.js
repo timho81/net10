@@ -35,8 +35,8 @@ router.get('/searchForCandidates/:keywords', sec.getAuth(), candidateEP.searchFo
 // router.get('/findCandidatesByRecruiter/:recruiterId', candidateEP.findCandidatesByRecruiter);
 router.get('/findCandidatesByRecruiter/:recruiterId', sec.getAuth(), candidateEP.findCandidatesByRecruiter);
 
-// router.put('/matchJobWithCandidate/:candidateId/:jobId/:managerId', candidateEP.matchJobWithCandidate);
-router.put('/matchJobWithCandidate/:candidateId/:jobId', sec.getAuth(), candidateEP.matchJobWithCandidate);
+router.put('/matchJobWithCandidate/:candidateId/:jobId/:managerId', candidateEP.matchJobWithCandidate);
+// router.put('/matchJobWithCandidate/:candidateId/:jobId', sec.getAuth(), candidateEP.matchJobWithCandidate);
 
 // upload files onto GCP and save them there, for later usage, all file-related operations go through backend
 
@@ -49,20 +49,18 @@ router.put('/matchJobWithCandidate/:candidateId/:jobId', sec.getAuth(), candidat
 // router.delete('/deleteResume/:candidateId', candidateEP.deleteResume);
 // router.delete('/deleteResume/:candidateId',sec.getAuth(), candidateEP.deleteResume);
 
-
 // Candidate Summary CRUDs for recruiters
-// POST /api/{version}/candidates/summary/profileId
-router.post('/summary/:candidateId', sec.getAuth(), candidateEP.addSummary);
-// router.post('/summary/:candidateId', candidateEP.addSummary);
-// PUT /api/{version}/candidates/summary/candidateId
-router.put('/summary:candidateId', sec.getAuth(), candidateEP.updateSummary);
-// router.put('/summary/:candidateId', candidateEP.updateSummary);
-// DELETE /api/{version}/candidates/summary/candidateId
-router.delete('/summary/:candidateId', sec.getAuth(), candidateEP.deleteSummary);
-// router.delete('/summary/:candidateId', candidateEP.deleteSummary);
-// GET /api/{version}/candidates/summary/candidateId
-router.get('/summary/:candidateId', sec.getAuth(), candidateEP.findSummaryByCandidateId);
-// router.get('/summary/:candidateId', candidateEP.findSummaryByCandidateId);
+// router.post('/summaries/:candidateId', candidateEP.createSummaries);
+router.post('/summaries/:candidateId', sec.getAuth(), candidateEP.createSummaries);
+
+// router.put('/summaries/:candidateId', candidateEP.updateSummaries);
+router.put('/summaries/:candidateId', sec.getAuth(), candidateEP.updateSummaries);
+
+// router.delete('/summaries/:candidateId', candidateEP.deleteSummaries);
+router.delete('/summaries/:candidateId', sec.getAuth(), candidateEP.deleteSummaries);
+
+// router.get('/summaries/:candidateId', candidateEP.findSummariesByCandidateId);
+router.get('/summaries/:candidateId', sec.getAuth(), candidateEP.findSummariesByCandidateId);
 
 
 // For managers

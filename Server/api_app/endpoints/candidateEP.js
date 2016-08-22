@@ -26,10 +26,10 @@ module.exports = {
     matchJobWithCandidate: matchJobWithCandidate,
     addResume: addResume,
     findCandidatesByRecruiter: findCandidatesByRecruiter,
-    addSummary: addSummary,
-    updateSummary: updateSummary,
-    deleteSummary: deleteSummary,
-    findSummaryByCandidateId: findSummaryByCandidateId,
+    createSummaries: createSummaries,
+    updateSummaries: updateSummaries,
+    deleteSummaries: deleteSummaries,
+    findSummariesByCandidateId: findSummariesByCandidateId,
     passCandidate: passCandidate,
     offerCandidate: offerCandidate
 };
@@ -78,7 +78,8 @@ function create(req, res) {
                         console.log('A new candidate and candidate account have been created and associated');
                         utils.sendJSONresponse(res, 200, {
                             "status" : "created",
-                            "candidateId": candidate._id
+                            "candidateId": candidate._id,
+                            "userId": user._id
                         });
                     }
                 });
@@ -206,12 +207,16 @@ function findCandidatesByRecruiter(req, res) {
     });
 }
 
+
+
 // Impl of Candidate Summary CRUDs
-function addSummary(req, res) {
+function createSummaries(req, res) {
     // Find profile by id
     Candidate.findById(req.params.candidateId, function (err, candidate) {
 
-        candidate.summary = req.body.summary;
+        candidate.summary1 = req.body.summary1;
+        candidate.summary2 = req.body.summary2;
+        candidate.summary3 = req.body.summary3;
 
         candidate.save(function(err) {
             if (err) {
@@ -226,11 +231,13 @@ function addSummary(req, res) {
     });
 }
 
-function updateSummary(req, res) {
+function updateSummaries(req, res) {
     // Find Candidate Summary by id
     Candidate.findById(req.params.candidateId, function (err, candidate) {
 
-        candidate.summary = req.body.summary;
+        candidate.summary1 = req.body.summary1;
+        candidate.summary2 = req.body.summary2;
+        candidate.summary3 = req.body.summary3;
 
         candidate.save(function(err) {
             if (err) {
@@ -245,17 +252,19 @@ function updateSummary(req, res) {
     });
 }
 
-function deleteSummary(req, res) {
+function deleteSummaries(req, res) {
     // Find profile by id
     Candidate.findById(req.params.candidateId, function (err, candidate) {
 
-        candidate.summary = null;
+        candidate.summary1 = null;
+        candidate.summary2 = null;
+        candidate.summary3 = null;
 
         candidate.save(function(err) {
             if (err) {
                 sendJSONresponse(res, 500, err);
             } else {
-                console.log('The candidate summary has been deleted by recruiters');
+                console.log('The candidate summaries has been deleted by recruiters');
                 utils.sendJSONresponse(res, 200, {
                     "status" : "deleted"
                 });
@@ -264,14 +273,16 @@ function deleteSummary(req, res) {
     });
 }
 
-function findSummaryByCandidateId(req, res) {
+function findSummariesByCandidateId(req, res) {
     // Find candidate by id
     Candidate.findById(req.params.candidateId, function (err, post) {
         if (err)
             sendJSONresponse(res, 404, err);
 
         utils.sendJSONresponse(res, 200, {
-            "summary" : post.summary
+            "summary1" : post.summary1,
+            "summary2" : post.summary2,
+            "summary3" : post.summary3
         });
     });
 }
