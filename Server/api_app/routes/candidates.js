@@ -35,8 +35,14 @@ router.get('/searchForCandidates/:keywords', sec.getAuth(), candidateEP.searchFo
 // router.get('/findCandidatesByRecruiter/:recruiterId', candidateEP.findCandidatesByRecruiter);
 router.get('/findCandidatesByRecruiter/:recruiterId', sec.getAuth(), candidateEP.findCandidatesByRecruiter);
 
-router.put('/matchJobWithCandidate/:candidateId/:jobId/:managerId', candidateEP.matchJobWithCandidate);
-// router.put('/matchJobWithCandidate/:candidateId/:jobId', sec.getAuth(), candidateEP.matchJobWithCandidate);
+// List of candidates of all matched candidates.  The system will match candidates to jobs,
+// and those jobs map to a manager.  So when the manager uses the app, he can see the new candidates
+// that match his job reqs.
+// router.get('/findCandidatesByManager/:managerId', candidateEP.findCandidatesByManager);
+router.get('/findCandidatesByManager/:managerId', sec.getAuth(), candidateEP.findCandidatesByManager);
+
+// router.put('/matchJobWithCandidate/:candidateId', candidateEP.matchJobWithCandidate);
+router.put('/matchJobWithCandidate/:candidateId', sec.getAuth(), candidateEP.matchJobWithCandidate);
 
 // upload files onto GCP and save them there, for later usage, all file-related operations go through backend
 

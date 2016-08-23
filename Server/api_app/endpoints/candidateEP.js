@@ -26,6 +26,7 @@ module.exports = {
     matchJobWithCandidate: matchJobWithCandidate,
     addResume: addResume,
     findCandidatesByRecruiter: findCandidatesByRecruiter,
+    findCandidatesByManager: findCandidatesByManager,
     createSummaries: createSummaries,
     updateSummaries: updateSummaries,
     deleteSummaries: deleteSummaries,
@@ -102,7 +103,7 @@ function create(req, res) {
 function update(req, res) {
     Candidate.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
         if (err) {
-            sendJSONresponse(res, 500, err);
+            utils.sendJSONresponse(res, 500, err);
         }
         utils.sendJSONresponse(res, 200, {
                     "status" : "updated"
@@ -113,7 +114,7 @@ function update(req, res) {
 function deleteCandidate(req, res) {
     Candidate.findByIdAndRemove(req.params.id, req.body, function (err, post) {
         if (err) {
-            sendJSONresponse(res, 500, err);
+            utils.sendJSONresponse(res, 500, err);
         }
         utils.sendJSONresponse(res, 200, {
             "status" : "deleted"
@@ -125,7 +126,7 @@ function deleteCandidate(req, res) {
 function findById(req, res, next) {
     Candidate.findById(req.params.id, function (err, post) {
         if (err) {
-            sendJSONresponse(res, 404, err);
+            utils.sendJSONresponse(res, 404, err);
         }
         res.json(post);
     });
@@ -158,7 +159,13 @@ function matchJobWithCandidate(req, res, next) {
     console.log('Matching a job with this candidate...');
 
     Candidate.findById(req.params.candidateId, function (err, candidate) {
-        candidate.matchedJobs.push({ matchedJobId: req.params.jobId, managerId: req.params.managerId});
+
+        if (err) {
+            utils.sendJSONresponse(res, 404, err);
+            return;
+        }
+        
+        candidate.matchedJobs.push({ matchedJobId: req.body.jobId, managerId: req.body.managerId});
 
         candidate.save(function(err) {
             if (err) {
@@ -166,7 +173,7 @@ function matchJobWithCandidate(req, res, next) {
             } else {
                 console.log('A job has been matched to this candidate');
                 utils.sendJSONresponse(res, 200, {
-                    "status" : "interested"
+                    "status" : "matched"
                 });
             }
         });
@@ -207,7 +214,19 @@ function findCandidatesByRecruiter(req, res) {
     });
 }
 
+function findCandidatesByManager(req, res) {
+    console.log('Fetching candidates created by a manager ...');
 
+    Candidate.find().where('matchedJobs.managerId').equals(req.params.managerId).exec(function(err, candidates) {
+        if (candidates.length > 0)
+            res.jsonp(candidates);
+        else {
+            utils.sendJSONresponse(res, 404, {
+                "status" : "empty"
+            });
+        }
+    });
+}
 
 // Impl of Candidate Summary CRUDs
 function createSummaries(req, res) {
@@ -220,7 +239,7 @@ function createSummaries(req, res) {
 
         candidate.save(function(err) {
             if (err) {
-                sendJSONresponse(res, 500, err);
+                utils.sendJSONresponse(res, 500, err);
             } else {
                 console.log('The candidate summary has been added by recruiters');
                 utils.sendJSONresponse(res, 200, {
@@ -241,7 +260,7 @@ function updateSummaries(req, res) {
 
         candidate.save(function(err) {
             if (err) {
-                sendJSONresponse(res, 500, err);
+                utils.sendJSONresponse(res, 500, err);
             } else {
                 console.log('The candidate summary has been updated by recruiters');
                 utils.sendJSONresponse(res, 200, {
@@ -262,7 +281,7 @@ function deleteSummaries(req, res) {
 
         candidate.save(function(err) {
             if (err) {
-                sendJSONresponse(res, 500, err);
+                utils.sendJSONresponse(res, 500, err);
             } else {
                 console.log('The candidate summaries has been deleted by recruiters');
                 utils.sendJSONresponse(res, 200, {
@@ -277,7 +296,7 @@ function findSummariesByCandidateId(req, res) {
     // Find candidate by id
     Candidate.findById(req.params.candidateId, function (err, post) {
         if (err)
-            sendJSONresponse(res, 404, err);
+            utils.sendJSONresponse(res, 404, err);
 
         utils.sendJSONresponse(res, 200, {
             "summary1" : post.summary1,
