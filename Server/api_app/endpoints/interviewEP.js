@@ -110,14 +110,40 @@ function cancel(req, res) {
     });
 }
 
+function interestInCandidate(req, res) {
+
+    // Find interview by id
+    Interview.findById(req.params.id, function (err, interview) {
+        // candidate.managerInterested = true;
+        interview.state = 'MANAGER_INTERESTED';
+        interview.interestedUserId = req.params.managerId;
+
+        interview.save(function(err) {
+            if (err) {
+                utils.sendJSONresponse(res, 500, err);
+            } else {
+                console.log('The interview state has been changed in response to manager interest in this candidate');
+                utils.sendJSONresponse(res, 200, {
+                    "status" : "changed"
+                });
+            }
+        });
+    });
+}
+
 function acknowledgeInterestInJob(req, res, next) {
     console.log('Acknowledging interest in the job or not, if yes, disclose profile to the recruitment manager');
 
     // The flag indicates that a candidate acknowledges if he/she is interested in this job or not
-    var interested = req.params.interested;
+    var interested = req.body.interested;
 
     Candidate.findById(req.params.candidateId, function (err, candidate) {
-        candidate.interestAckJobs.push({ jobId: req.params.jobId, managerId: req.params.managerId, interested: (interested=='true'?true:false)});
+
+        if (err) {
+            utils.sendJSONresponse(res, 404, err);
+            return;
+        }
+        candidate.interestAckJobs.push({ jobId: req.body.jobId, managerId: req.body.managerId, interested: (interested=='true'?true:false)});
 
         candidate.save(function(err) {
             if (err) {
@@ -137,11 +163,24 @@ function acknowledgeInterestInJob(req, res, next) {
             }
         });
     });
-}
 
-function interestInCandidate(req, res) {
-    // Send a notification email to candidate in whom the manager is interested
-
+    // Find interview by id
+    // Interview.findById(req.params.id, function (err, interview) {
+    //     // candidate.managerInterested = true;
+    //     interview.state = 'CANDIDATE_INTERESTED';
+    //     interview.interestedUserId = req.params.candidateId;
+    //
+    //     interview.save(function(err) {
+    //         if (err) {
+    //             utils.sendJSONresponse(res, 500, err);
+    //         } else {
+    //             console.log('The interview state has been changed in reaction to candidate interest in a job');
+    //             utils.sendJSONresponse(res, 200, {
+    //                 "status" : "changed"
+    //             });
+    //         }
+    //     });
+    // });
 }
 
 function changeState(req, res) {

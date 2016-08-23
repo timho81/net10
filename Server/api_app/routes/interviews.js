@@ -19,9 +19,10 @@ router.post('/', sec.getAuth(), interviewEP.create)       // Manager requests an
     .put('/:id', sec.getAuth(), interviewEP.cancel)
     .put('/changeState/:id/:state', sec.getAuth(), interviewEP.changeState)
     // Candidate acknowledges interest in or ignore a job, if interested, discloses his/her entire profile to the manager
-    .put('/acknowledgeInterestInJob/:candidateId/:jobId/:managerId/:interested', sec.getAuth(), interviewEP.acknowledgeInterestInJob)
+    // .put('/acknowledgeInterestInJob/:candidateId', interviewEP.acknowledgeInterestInJob)
+    .put('/acknowledgeInterestInJob/:candidateId', sec.getAuth(), interviewEP.acknowledgeInterestInJob)
     // Manager shows his interest in a candidate by sending him a notification email
-    .put('/interestInCandidate', sec.getAuth(), interviewEP.interestInCandidate)
+    .put('/interestInCandidate/:candidateId/:managerId', sec.getAuth(), interviewEP.interestInCandidate)
 
     .get('/findInterviewsByCandidate/:candidateId', sec.getAuth(), interviewEP.findInterviewsByCandidate)
     .get('/findInterviewsByManager/:managerId', sec.getAuth(), interviewEP.findInterviewsByManager);

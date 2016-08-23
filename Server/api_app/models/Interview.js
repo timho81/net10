@@ -16,8 +16,9 @@ var InterviewSchema = new mongoose.Schema({
     accepted: {type: Boolean, default: false, required: true},
     rejected: {type: Boolean, default: false, required: true},
     notes: String,
+    interestedUserId: String, // user id of a manager or a candidate who shows interest in a candidate or a job, respectively
     state: {type: String,
-        enum: ['PHONE','ROUND_1','ROUND_2','FINAL']
+        enum: ['MANAGER_INTERESTED','CANDIDATE_INTERESTED','PHONE','ROUND_1','ROUND_2','FINAL']
     },
     jobReqId: {type: String, required: true},
     inviter: {type: String, required: true}, // User ID of Manager who invited the candidate
