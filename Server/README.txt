@@ -86,6 +86,7 @@ http://localhost:8080/api/v1/accounts/login         Post            {"username":
 
 																	 
 VI. Deploy app on GCP:
+1. Deployment:
 
 - Install Docker, KubeCtl
 
@@ -139,5 +140,15 @@ $ sudo kubectl get deployments
 
 
 
+2. Automatated Redeployment:
 
+- Move cursor to parent directory of Server folder, where gke-deploy.sh and Dockerfile reside
+- ./gke-deploy.sh {version}
+- When prompted, enter github credentials
+- Edit, save and close config file:
+
+containers:
+      - image: gcr.io/PROJECT_ID/image_name:{version} # Update this line
+	  
+- App redeployed in some seconds
 										 
