@@ -1,5 +1,9 @@
 /**
  * Created by Tim Ho on 6/14/2016.
+ *
+ * Logics to compare user-provided credentials against what exists in database,
+ * if equal, then authentication succeeds, the user can log in to the app,
+ * otherwise, authc fails, the user is blocked from proceeding
  */
 
 var passport = require('passport');

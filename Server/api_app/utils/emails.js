@@ -1,5 +1,8 @@
 /**
  * Created by Tim Ho on 7/20/2016.
+ *
+ * Logics to send emails on Google Cloud environment
+ *
  */
 
 var nodeMailer = require('nodemailer');

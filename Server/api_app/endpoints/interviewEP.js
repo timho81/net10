@@ -1,5 +1,7 @@
 /**
  * Created by Tim Ho on 7/1/2016.
+ *
+ * The endpoint handles client requests to Interview service
  */
 
 

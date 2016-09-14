@@ -1,5 +1,7 @@
 /**
  * Created by Tim Ho on 6/14/2016.
+ *
+ * The router routes client requests to accountEP endpoint by mapping accounts url patterns for request processing
  */
 var express = require('express');
 var router = express.Router();

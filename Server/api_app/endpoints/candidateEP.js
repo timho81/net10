@@ -1,5 +1,7 @@
 /**
  * Created by Tim Ho on 6/20/2016.
+ *
+ * The endpoint handles client requests to Candidate service
  */
 
 var mongoose = require('mongoose');

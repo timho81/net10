@@ -1,5 +1,7 @@
 /**
  * Created by Tim Ho on 7/5/2016.
+ *
+ * The endpoint handles client requests to Offer service
  */
 
 

@@ -20,7 +20,8 @@ var JobReqSchema = new mongoose.Schema({
     industry: String,
     degree: String,
     createdBy: {type: String, required: true}, // id of user/manager who created this job req
-    candidateIds: [String]
+    candidateIds: [String],
+    excludedCandidateIds: [String] // a list of candidates who are not interested in this job, means, they ignore it
 });
 
 module.exports = mongoose.model('JobReq', JobReqSchema);

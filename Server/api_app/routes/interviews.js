@@ -1,5 +1,7 @@
 /**
  * Created by Tim Ho on 7/1/2016.
+ *
+ * The router routes client requests to interviewEP endpoint by mapping interviews url patterns for request processing
  */
 
 var express = require('express');

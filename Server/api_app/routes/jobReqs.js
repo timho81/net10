@@ -1,5 +1,7 @@
 /**
  * Created by Tim Ho on 6/20/2016.
+ *
+ * The router routes client requests to jobReqEP endpoint by mapping job reqs url patterns for request processing
  */
 
 var express = require('express');

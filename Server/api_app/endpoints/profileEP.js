@@ -1,5 +1,7 @@
 /**
  * Created by Tim Ho on 6/16/2016.
+ *
+ * The endpoint handles client requests to Profile service
  */
 
 

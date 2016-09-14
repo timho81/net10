@@ -14,6 +14,7 @@ var InterestAckJobSchema = new mongoose.Schema({
     interested: {type: Boolean, required: true, default: false}
 });
 
+
 var MatchedJobSchema = new mongoose.Schema({
     _id: { type: String, default: uuid.v4},
     matchedJobId: {type: String, required: true}, // jobId
@@ -45,12 +46,12 @@ var CandidateSchema = new mongoose.Schema({
     resume: String,
     interestAckJobs: [InterestAckJobSchema], // Jobs as an embedded subdocument that are of interest to the candidate
                                              // Jobs that are of no interest to the candidate will be ignored by him/her
-    matchedJobs: [MatchedJobSchema],
+    matchedJobs: [MatchedJobSchema], // the list of job matched with this candidate
     excludedJobIds: [String], // a list of jobs in which this candidate is not interest, thus, he/she ignores them
     userId: String,
     jobIds: [String], // positions/jobreqs for which the candidate applied
-    createdBy: {type: String, required: true}, // userId of the creator who creates this candidate
-    averageRating: Number, // a computed value
+
+    averageRating: Number, // a computed valuecreatedBy: {type: String, required: true}, // userId of the creator who creates this candidate
     scores: [Number],
     passedOn: {type: Boolean, default: false}
 });

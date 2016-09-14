@@ -1,5 +1,7 @@
 /**
  * Created by Tim Ho on 7/5/2016.
+ *
+ * The router routes client requests to offerEP endpoint by mapping offers url patterns for request processing
  */
 
 var express = require('express');

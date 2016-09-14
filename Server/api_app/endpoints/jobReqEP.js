@@ -1,9 +1,10 @@
 /**
  * Created by Tim Ho on 6/20/2016.
+ *
+ * The endpoint handles client requests to Job Req service
+ *
+ * Resources access control is restricted to Managers only
  */
-
-// Endpoint that expose APIs for managing job requisitions
-// Access control is restricted to Managers only
 
 var mongoose = require('mongoose');
 var JobReq = require('../models/JobReq.js');

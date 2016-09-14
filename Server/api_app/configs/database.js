@@ -6,6 +6,8 @@ module.exports = {
     makeDBConnection: makeMongoDBConnection
 };
 
+// Connect to mongodb, specify DEPLOYMENT_MODE to switch between development and production envs,
+// database settings reside in config.json (under app root dir)
 function makeMongoDBConnection () {
     var dbConnectionUrl = null;
     // Need to specify deployment modes: DEV/QA/STAGING/PROD in config.json
